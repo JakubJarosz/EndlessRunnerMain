@@ -246,6 +246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c46d3c5c9f3034ca7a0b872c2edab9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerVisual
+  detection: {fileID: 702975841}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -929,6 +930,7 @@ GameObject:
   - component: {fileID: 1818240851}
   - component: {fileID: 1818240855}
   - component: {fileID: 1818240854}
+  - component: {fileID: 1818240856}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -951,7 +953,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 3
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1038,9 +1040,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 421af891cc3dd9c48a6418021e37effd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerJump
-  jumpForce: 6
-  holdForce: 14
-  maxJumpTime: 0.5
+  jumpForce: 20
 --- !u!114 &1818240855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1053,6 +1053,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74f3593a9000a3d40ac6cc8799c896a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+--- !u!114 &1818240856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818240850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8eb29482c825f8f4c822ba8c61061536, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDash
 --- !u!1 &1835635492
 GameObject:
   m_ObjectHideFlags: 0

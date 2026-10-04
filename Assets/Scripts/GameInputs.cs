@@ -7,7 +7,8 @@ public class GameInputs : MonoBehaviour
     private InputActions inputActions;
 
     // -------------- Events --------------
-    public event Action<bool> IsJumpPressed;
+    public event Action OnJumpPressed;
+    public event Action OnJumpReleased;
 
     // ------------- End Events --------------
 
@@ -18,7 +19,7 @@ public class GameInputs : MonoBehaviour
 
         inputActions.Player.Enable();
 
-        inputActions.Player.Jump.started += ctx => IsJumpPressed?.Invoke(true);
-        inputActions.Player.Jump.canceled += ctx => IsJumpPressed?.Invoke(false);
+        inputActions.Player.Jump.started += ctx => OnJumpPressed?.Invoke();
+        inputActions.Player.Jump.canceled += ctx => OnJumpReleased?.Invoke();
     }
 }

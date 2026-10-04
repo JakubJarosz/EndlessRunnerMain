@@ -24,23 +24,23 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void Start() {
-        jump.TryToJump += Jump_TryToJump;
+        jump.TryToJump += HandleTryToJump;
     }
-
     private void Update() {
         HandeState();
-        HandleJumpHold();
-        switch (currentState) {
-            case PlayerState.Run:
-           
-                break;
-            case PlayerState.Jump:
-             
-                break;
-            case PlayerState.Fall:
+        HandleGravity();
+  
+        //switch (currentState) {
+        //    case PlayerState.Run:
 
-                break;
-        }
+        //        break;
+        //    case PlayerState.Jump:
+
+        //        break;
+        //    case PlayerState.Fall:
+
+        //        break;
+        //}
     }
 
     // ----------------- Private Methods -----------------
@@ -52,17 +52,25 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    private void HandleJumpHold() {
-        if (jump.isJumping && jump.isHoldingJump) {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jump.HoldForce);
+    private void HandleTryToJump() {
+        if (detection.IsGrounded()) {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jump.JumpForce);
+        }
+    }
+
+    private void HandleGravity() {
+        if (rb.linearVelocity.y > 0) {
+            if (jump.jumpHeld)
+                rb.gravityScale = 2f;       // full jump
+            else
+                rb.gravityScale = 6f;       // cut jump 
+        } else {
+            rb.gravityScale = 3f;         // falling
         }
     }
 
     // ----------------- Events -----------------
 
-    private void Jump_TryToJump() {
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jump.JumpForce);
-    }
 
     // ----------------- Properties -----------------
     public float GetVerticalVelocity() {
