@@ -7,10 +7,15 @@ public class PlayerJump : MonoBehaviour
 
     [Header("Jump Settings")]
     [SerializeField] private float jumpForce = 4f;
+    [SerializeField] private float coyoteTime = 0.2f;
+    [SerializeField] private float bufferJumpTime = 0.2f;
 
     public bool jumpHeld { get; private set; }
 
     public event Action TryToJump;
+
+    private float coyoteTimeCounter;
+    private float bufferJumpCounter;
 
     private void Awake() {
         detection = GetComponentInChildren<PlayerDetection>();
@@ -22,11 +27,28 @@ public class PlayerJump : MonoBehaviour
     }
 
     private void Update() {
-    }
+        // coyote time
+        if (detection.IsGrounded()) {
+            coyoteTimeCounter = coyoteTime;
+        } else {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
+
+        // buffer jump time
+        bufferJumpCounter -= Time.deltaTime;
+
+        // Trying to jump
+         if (bufferJumpCounter > 0 && coyoteTimeCounter > 0) {
+            TryToJump?.Invoke();
+
+            bufferJumpCounter = 0f; // Reset buffer jump counter after jumping
+            coyoteTimeCounter = 0f; // Reset coyote time counter after jumping
+        }
+     }
 
     private void HandleJumpPressed() {
-        TryToJump?.Invoke();
-        jumpHeld = true;
+        jumpHeld = true;  
+        bufferJumpCounter = bufferJumpTime;
     }
 
     private void HandleJumpReleased() {

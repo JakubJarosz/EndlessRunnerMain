@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class LevelMovement : MonoBehaviour
 {
-    [SerializeField] private float speed;
+    [SerializeField] private float startingSpeed;
+
     private void Update() {
-        transform.position += speed * Vector3.left * Time.deltaTime;
+        transform.position += startingSpeed * Vector3.left * Time.deltaTime;
     }
 }

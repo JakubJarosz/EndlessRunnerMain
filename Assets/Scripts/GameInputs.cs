@@ -9,6 +9,7 @@ public class GameInputs : MonoBehaviour
     // -------------- Events --------------
     public event Action OnJumpPressed;
     public event Action OnJumpReleased;
+    public event Action OnDashPressed;
 
     // ------------- End Events --------------
 
@@ -21,5 +22,7 @@ public class GameInputs : MonoBehaviour
 
         inputActions.Player.Jump.started += ctx => OnJumpPressed?.Invoke();
         inputActions.Player.Jump.canceled += ctx => OnJumpReleased?.Invoke();
+
+        inputActions.Player.Dash.started += ctx => OnDashPressed?.Invoke();
     }
 }

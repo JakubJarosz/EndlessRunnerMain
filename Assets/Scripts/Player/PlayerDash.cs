@@ -2,15 +2,19 @@ using UnityEngine;
 
 public class PlayerDash : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
+    [SerializeField] private float dashMoveMultiplier = 2f;
+
+    private bool isDashing;
+
+    private void Start() {
+        GameInputs.Instance.OnDashPressed += HandleDashPressed;
+    }
+
+    private void Update() {
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void HandleDashPressed() {
+        isDashing = true;
     }
 }
