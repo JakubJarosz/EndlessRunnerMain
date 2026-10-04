@@ -1,26 +1,38 @@
+using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
+
+    public static PlayerController Instance;
 
     private Rigidbody2D rb;
 
     private PlayerDetection detection;
     private PlayerJump jump;
+    public PlayerDash dash;
 
-    private enum PlayerState {
+    // ----------------- Events -----------------
+    public event Action PerformDashVisual;
+
+    public enum PlayerState {
         Run,
         Jump,
-        Fall
+        Fall,
+        Dash
     }
     
-    private PlayerState currentState;
+    public PlayerState currentState { get; private set; }
+    private PlayerState previousState;
 
     // ----------------- Unity Methods -----------------
     private void Awake() {
+        Instance = this;
+
         rb = GetComponent<Rigidbody2D>();
 
         detection = GetComponentInChildren<PlayerDetection>();
         jump = GetComponent<PlayerJump>();
+        dash = GetComponent<PlayerDash>();
     }
 
     private void Start() {
@@ -29,7 +41,7 @@ public class PlayerController : MonoBehaviour {
     private void Update() {
         HandeState();
         HandleGravity();
-  
+        Debug.Log(currentState);
         //switch (currentState) {
         //    case PlayerState.Run:
 
@@ -45,11 +57,29 @@ public class PlayerController : MonoBehaviour {
 
     // ----------------- Private Methods -----------------
     private void HandeState() {
+        previousState = currentState;
+
+        if (dash.isDashing) {
+            currentState = PlayerState.Dash;
+            return;
+        }
         if (detection.IsGrounded()) {
             currentState = PlayerState.Run;
         } else {
             currentState = rb.linearVelocity.y > 0 ? PlayerState.Jump : PlayerState.Fall;
         }
+
+        HandleStateChange();
+    }
+
+    private void HandleStateChange() {
+        if (currentState == previousState) return;
+
+        // Handle Dash state
+        if (currentState == PlayerState.Dash) {
+            PerformDashVisual?.Invoke();
+            rb.gravityScale = 0f;
+        } 
     }
 
     private void HandleTryToJump() {
@@ -73,7 +103,6 @@ public class PlayerController : MonoBehaviour {
 
 
     // ----------------- Properties -----------------
-    public float GetVerticalVelocity() {
-        return rb.linearVelocity.y;
-    }
+    public float GetVerticalVelocity => rb.linearVelocity.y;
+
 }

@@ -12,8 +12,16 @@ public class PlayerVisual : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
+    private void Start() {
+        controller.PerformDashVisual += HandlePerformDashVisual;
+    }
+
+    private void HandlePerformDashVisual() {
+        anim.SetTrigger("dash");
+    }
+
     private void Update() {
         anim.SetBool("isGrounded", detection.IsGrounded());
-        anim.SetFloat("yVelocity", controller.GetVerticalVelocity());
+        anim.SetFloat("yVelocity", controller.GetVerticalVelocity);
     }
 }
