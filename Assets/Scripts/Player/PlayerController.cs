@@ -10,15 +10,18 @@ public class PlayerController : MonoBehaviour {
     private PlayerDetection detection;
     private PlayerJump jump;
     public PlayerDash dash;
+    private PlayerSlide slide;
 
     // ----------------- Events -----------------
     public event Action PerformDashVisual;
+    public event Action<bool> PerformSlideVisual;
 
     public enum PlayerState {
         Run,
         Jump,
         Fall,
-        Dash
+        Dash,
+        Slide
     }
     
     public PlayerState currentState { get; private set; }
@@ -33,6 +36,7 @@ public class PlayerController : MonoBehaviour {
         detection = GetComponentInChildren<PlayerDetection>();
         jump = GetComponent<PlayerJump>();
         dash = GetComponent<PlayerDash>();
+        slide = GetComponent<PlayerSlide>();
     }
 
     private void Start() {
@@ -41,7 +45,6 @@ public class PlayerController : MonoBehaviour {
     private void Update() {
         HandeState();
         HandleGravity();
-        Debug.Log(currentState);
         //switch (currentState) {
         //    case PlayerState.Run:
 
@@ -61,10 +64,8 @@ public class PlayerController : MonoBehaviour {
 
         if (dash.isDashing) {
             currentState = PlayerState.Dash;
-            return;
-        }
-        if (detection.IsGrounded()) {
-            currentState = PlayerState.Run;
+        } else if (detection.IsGrounded()) {
+            currentState = slide.isSlidingPressed ? PlayerState.Slide : PlayerState.Run;
         } else {
             currentState = rb.linearVelocity.y > 0 ? PlayerState.Jump : PlayerState.Fall;
         }
@@ -79,7 +80,18 @@ public class PlayerController : MonoBehaviour {
         if (currentState == PlayerState.Dash) {
             PerformDashVisual?.Invoke();
             rb.gravityScale = 0f;
-        } 
+            rb.linearVelocity = Vector2.zero;
+        }
+
+        // Handle Slide start
+        if (currentState == PlayerState.Slide) {
+            PerformSlideVisual?.Invoke(true);
+        }
+
+        // Handle Slide end
+        if (previousState == PlayerState.Slide && currentState != PlayerState.Slide) {
+            PerformSlideVisual?.Invoke(false);
+        }
     }
 
     private void HandleTryToJump() {
@@ -89,6 +101,8 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void HandleGravity() {
+        if (currentState == PlayerState.Dash) return;
+
         if (rb.linearVelocity.y > 0) {
             if (jump.jumpHeld)
                 rb.gravityScale = 2f;       // full jump

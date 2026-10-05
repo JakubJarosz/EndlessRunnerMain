@@ -5,6 +5,9 @@ public class PlayerDetection : MonoBehaviour
     [SerializeField] private Vector2 groundCheckRadius;
     [SerializeField] private LayerMask groundLayer;
 
+    private void Update() {
+        Debug.Log(IsGrounded());
+    }
     private void OnDrawGizmos() {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(transform.position, groundCheckRadius);

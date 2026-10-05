@@ -14,10 +14,15 @@ public class PlayerVisual : MonoBehaviour
 
     private void Start() {
         controller.PerformDashVisual += HandlePerformDashVisual;
+        controller.PerformSlideVisual += HandlePerformSlideVisual;      
     }
 
     private void HandlePerformDashVisual() {
         anim.SetTrigger("dash");
+    }
+
+    private void HandlePerformSlideVisual(bool isSliding) {
+        anim.SetBool("isSliding", isSliding);
     }
 
     private void Update() {

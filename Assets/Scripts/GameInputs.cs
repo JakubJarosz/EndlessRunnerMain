@@ -10,6 +10,7 @@ public class GameInputs : MonoBehaviour
     public event Action OnJumpPressed;
     public event Action OnJumpReleased;
     public event Action OnDashPressed;
+    public event Action<bool> IsSlidingPressed;
 
     // ------------- End Events --------------
 
@@ -24,5 +25,8 @@ public class GameInputs : MonoBehaviour
         inputActions.Player.Jump.canceled += ctx => OnJumpReleased?.Invoke();
 
         inputActions.Player.Dash.started += ctx => OnDashPressed?.Invoke();
+
+        inputActions.Player.Slide.started += ctx => IsSlidingPressed?.Invoke(true);
+        inputActions.Player.Slide.canceled += ctx => IsSlidingPressed?.Invoke(false);
     }
 }
