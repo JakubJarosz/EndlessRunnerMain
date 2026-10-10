@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour {
         if (dash.isDashing) {
             currentState = PlayerState.Dash;
         } else if (detection.IsGrounded()) {
-            currentState = slide.isSlidingPressed ? PlayerState.Slide : PlayerState.Run;
+            currentState = slide.isSliding ? PlayerState.Slide : PlayerState.Run;
         } else {
             currentState = rb.linearVelocity.y > 0 ? PlayerState.Jump : PlayerState.Fall;
         }
