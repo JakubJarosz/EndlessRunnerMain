@@ -468,6 +468,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &644042024 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7384594616002786856, guid: 9fdb70096bd853b46b8b68fbda4dc12d, type: 3}
+  m_PrefabInstance: {fileID: 8473216438819065967}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &702975839
 GameObject:
   m_ObjectHideFlags: 0
@@ -547,7 +552,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelMovement
   playerController: {fileID: 1818240855}
   playerDash: {fileID: 1818240856}
-  startingSpeed: 3
+  startingSpeed: 5
+  speedInscrease: 0.2
 --- !u!4 &788771425
 Transform:
   m_ObjectHideFlags: 0
@@ -564,6 +570,50 @@ Transform:
   - {fileID: 1717481003}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &859257468
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 859257469}
+  - component: {fileID: 859257470}
+  m_Layer: 0
+  m_Name: GameStats
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &859257469
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859257468}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1137638394}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &859257470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859257468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 532b5075e22633349b7dbf1d845725fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameStats
 --- !u!1 &999389134
 GameObject:
   m_ObjectHideFlags: 0
@@ -639,6 +689,7 @@ Transform:
   m_Children:
   - {fileID: 999389135}
   - {fileID: 1645804915}
+  - {fileID: 859257469}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1645804914
@@ -685,7 +736,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 802168daed1ab7c4b90ad06c5a26a48a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelManager
-  initialPart: {fileID: 7384594616002786856, guid: 9fdb70096bd853b46b8b68fbda4dc12d, type: 3}
+  initialPart: {fileID: 644042024}
+  levelParent: {fileID: 788771425}
   levelSO: {fileID: 11400000, guid: 5443546793b05624081cdb03c261e851, type: 2}
 --- !u!4 &1717481003 stripped
 Transform:

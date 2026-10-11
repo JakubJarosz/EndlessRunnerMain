@@ -24,7 +24,7 @@ public class PlayerDash : MonoBehaviour
     }
 
     private void HandleDashPressed() {
-        if (isDashing) return;
+        if (isDashing || PlayerController.Instance.currentState == PlayerController.PlayerState.Slide) return;
 
         isDashing = true;
         dashDurationTimer = dashDuration;

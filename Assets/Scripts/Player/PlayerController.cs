@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void HandleTryToJump() {
-        if (detection.IsGrounded()) {
+        if (detection.IsGrounded() && currentState != PlayerState.Slide) {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jump.JumpForce);
         }
     }
