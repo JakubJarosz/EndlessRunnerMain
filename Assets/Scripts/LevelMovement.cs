@@ -8,19 +8,24 @@ public class LevelMovement : MonoBehaviour
     [Header("Movement variables")]
     [SerializeField] private float startingSpeed;
     [SerializeField] private float speedInscrease;
+    [SerializeField] private float slowPickupMovementDescrease;
 
     public float currentSpeed { private set; get; }
     private float speedModifier = 1f;
 
     private void Start() {
         currentSpeed = startingSpeed;
+        SlowPickup.SlowPickupCollected += SlowPickup_SlowPickupCollected;
+    }
+
+    private void SlowPickup_SlowPickupCollected() {
+        currentSpeed -= slowPickupMovementDescrease;
     }
 
     private void Update() {
         SetSpeedModifiers();
         SpeedIncrease();
         transform.position += currentSpeed * speedModifier * Vector3.left * Time.deltaTime;
-        Debug.Log(currentSpeed);
     }
 
     private void SpeedIncrease() {

@@ -15,7 +15,7 @@ public class Coin : MonoBehaviour
         Movement();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) {
+    private void OnTriggerEnter2D() {
         GameStats.Instance.AddCoin();
         Destroy(gameObject);
     }

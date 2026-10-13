@@ -7,4 +7,6 @@ public class SlowPickupHandler : MonoBehaviour
 
         transform.GetChild(randomIndex).gameObject.SetActive(true);
     }
+
+
 }

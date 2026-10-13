@@ -13,6 +13,10 @@ public class GameStats : MonoBehaviour
         Instance = this;
     }
 
+    private void Update() {
+        Debug.Log(coinCount);
+    }
+
     public void AddCoin() {
         coinCount++;
     }
