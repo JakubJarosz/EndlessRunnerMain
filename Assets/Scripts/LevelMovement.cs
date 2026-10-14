@@ -23,6 +23,7 @@ public class LevelMovement : MonoBehaviour
     }
 
     private void Update() {
+        if (GameManager.Instance.state != GameManager.GameState.Gameplay) return;
         SetSpeedModifiers();
         SpeedIncrease();
         transform.position += currentSpeed * speedModifier * Vector3.left * Time.deltaTime;

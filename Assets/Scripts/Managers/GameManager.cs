@@ -5,21 +5,22 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public event Action<GameState> StateChanged;
+    public event Action<GameState> GameStateChanged;
 
     public enum GameState {
         Gameplay,
         Death
     }
 
-    public GameState state;
+    public GameState state { get; private set; }
 
     private void Awake() {
         Instance = this;
+        UpdateGameState(GameState.Gameplay);
     }
 
-    public void UpdateState(GameState changeState) {
-        state = changeState;
-        StateChanged?.Invoke(state);
+    public void UpdateGameState(GameState gameState) {
+        state = gameState;
+        GameStateChanged?.Invoke(state);
     }
 }

@@ -14,7 +14,14 @@ public class PlayerVisual : MonoBehaviour
 
     private void Start() {
         controller.PerformDashVisual += HandlePerformDashVisual;
-        controller.PerformSlideVisual += HandlePerformSlideVisual;      
+        controller.PerformSlideVisual += HandlePerformSlideVisual;
+        GameManager.Instance.GameStateChanged += Instance_GameStateChanged;
+    }
+
+    private void Instance_GameStateChanged(GameManager.GameState obj) {
+        if (obj == GameManager.GameState.Death) {
+            anim.SetTrigger("death");
+        }
     }
 
     private void HandlePerformDashVisual() {

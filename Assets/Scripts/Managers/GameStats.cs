@@ -6,15 +6,8 @@ public class GameStats : MonoBehaviour
 
     private int coinCount;
 
-    // Slow pick up variables
-
-
     private void Awake() {
         Instance = this;
-    }
-
-    private void Update() {
-        Debug.Log(coinCount);
     }
 
     public void AddCoin() {
