@@ -976,6 +976,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   dash: {fileID: 1818240856}
+  centerDelay: 3
 --- !u!114 &1818240856
 MonoBehaviour:
   m_ObjectHideFlags: 0
