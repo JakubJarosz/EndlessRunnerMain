@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public event Action<GameState> GameStateChanged;
 
     public enum GameState {
+        Pregame,
         Gameplay,
         Death
     }
