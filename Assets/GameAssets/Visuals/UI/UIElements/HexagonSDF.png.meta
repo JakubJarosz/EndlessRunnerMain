@@ -1,16 +1,16 @@
 fileFormatVersion: 2
-guid: a220ce885c644b246b20ce3746906ad1
+guid: b9636055d47d4c34f87d81f5f25317cf
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 9211063791032491476
-    second: panel-transparent-center-003_0
+      213: -6146810272204845102
+    second: sdf-output_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 0
-    sRGBTexture: 1
+    enableMipMap: 1
+    sRGBTexture: 0
     linearTexture: 0
     fadeOut: 0
     borderMipMap: 0
@@ -55,9 +55,9 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 1
+  alphaIsTransparency: 0
   spriteTessellationDetail: -1
-  textureType: 8
+  textureType: 0
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: panel-transparent-center-003_0
+      name: sdf-output_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 48
-        height: 48
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4dd54f337b544df70800000000000000
-      internalID: 9211063791032491476
+      spriteID: 2df0287ef9422baa0800000000000000
+      internalID: -6146810272204845102
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      panel-transparent-center-003_0: 9211063791032491476
+      sdf-output_0: -6146810272204845102
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,0 +1,8 @@
+:root {
+}
+
+.text {
+    -unity-font-definition: url("project://database/Assets/GameAssets/Visuals/Kaph_Font_1_20/OpenType%20(.otf)/Kaph-Regular.otf?fileID=12800000&guid=b6558aa0efa0b4149ad5131051e2c81a&type=3#Kaph-Regular");
+    color: rgb(253, 253, 253);
+    font-size: 18px;
+}

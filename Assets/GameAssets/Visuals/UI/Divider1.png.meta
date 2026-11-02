@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 2d737589d8b590c42ae09a5858d30dc8
+guid: 826e7b2a47941624a8bb601a970b68af
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1170069481925155653
-    second: panel-transparent-center-015_0
+      213: -8082446287624431124
+    second: 1ef2dc904af61073f9087c94c14aa33e_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: panel-transparent-center-015_0
+      name: 1ef2dc904af61073f9087c94c14aa33e_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 48
-        height: 48
+        width: 1009
+        height: 1106
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bb46357610413cfe0800000000000000
-      internalID: -1170069481925155653
+      spriteID: ce998fd8ce165df80800000000000000
+      internalID: -8082446287624431124
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      panel-transparent-center-015_0: -1170069481925155653
+      1ef2dc904af61073f9087c94c14aa33e_0: -8082446287624431124
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
