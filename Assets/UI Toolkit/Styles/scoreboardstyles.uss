@@ -1,0 +1,16 @@
+:root {
+}
+
+.title {
+    scale: 1 -1;
+}
+
+.scoreTab {
+}
+
+.text {
+    -unity-font-definition: url("project://database/Assets/GameAssets/Visuals/Kaph_Font_1_20/TrueType%20(.ttf)/Kaph-Regular.ttf?fileID=12800000&guid=198d73bfd9f2ce5489162b0c8be2399e&type=3#Kaph-Regular");
+    color: rgb(255, 255, 255);
+    -unity-text-align: middle-center;
+    font-size: 24px;
+}

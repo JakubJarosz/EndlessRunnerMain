@@ -1,0 +1,50 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/Styles/scoreboardstyles.uss?fileID=7433441132597879392&amp;guid=a875e5c0ac8fde04dab807a7a5d8e1bb&amp;type=3#scoreboardstyles"/>
+    <ui:VisualElement name="Background" style="flex-grow: 1; position: relative; width: 100%; height: 100%; flex-direction: column; flex-wrap: nowrap; align-items: center; justify-content: center; align-content: flex-start;">
+        <ui:VisualElement name="Scoreboard" style="flex-grow: 0; flex-shrink: 1; background-image: url(&quot;project://database/Assets/GameAssets/Visuals/UI/UIElements/sh_chamfer-rect_small_01_512.png?fileID=2800000&amp;guid=b8b9898e893c5844ea7ebe008f1cc2cf&amp;type=3#sh_chamfer-rect_small_01_512&quot;); background-size: 900px 650px; height: 650px; width: 975px; flex-wrap: nowrap; flex-direction: column; background-position-x: center; background-position-y: center; -unity-background-scale-mode: stretch-to-fill; aspect-ratio: 1.5; -unity-background-image-tint-color: rgb(165, 208, 229); -unity-slice-bottom: 0; -unity-slice-right: 67; -unity-slice-top: 0; -unity-slice-left: 67; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; -unity-slice-type: sliced; margin-top: 70px; align-items: center;">
+            <ui:VisualElement name="Title" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/GameAssets/Visuals/UI/UIElements/Hexagon.png?fileID=2800000&amp;guid=a15b00d319f1ffd49be98c3418c8385e&amp;type=3#Hexagon&quot;); width: 600px; -unity-background-scale-mode: scale-and-crop; background-position-y: center; background-position-x: center; height: 100px; position: absolute; top: -30px; -unity-background-image-tint-color: rgb(125, 180, 190); left: auto; translate: 50% 0; right: 50%;">
+                <ui:VisualElement name="Title" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/GameAssets/Visuals/UI/UIElements/Hexagon.png?fileID=2800000&amp;guid=a15b00d319f1ffd49be98c3418c8385e&amp;type=3#Hexagon&quot;); width: 400px; -unity-background-scale-mode: scale-and-crop; background-position-y: center; background-position-x: center; height: 107px; position: absolute; top: -16px; -unity-background-image-tint-color: rgb(169, 221, 231); left: auto; right: 50%; translate: 50% 0;"/>
+                <ui:Image source="project://database/Assets/GameAssets/Visuals/UI/Icons/trophy.png?fileID=2800000&amp;guid=b862df313bd52264ea4ecbc159f0821b&amp;type=3#trophy" name="TrophyIcon" style="position: absolute; height: 110px; top: -39px; left: auto; width: 146px; right: 50%; translate: 50% 0;"/>
+                <ui:Label text="Scoreboard&#10;" name="ScoreboardText" style="-unity-font-definition: url(&quot;project://database/Assets/GameAssets/Visuals/Kaph_Font_1_20/TrueType%20(.ttf)/Kaph-Regular.ttf?fileID=12800000&amp;guid=198d73bfd9f2ce5489162b0c8be2399e&amp;type=3#Kaph-Regular&quot;); color: rgb(255, 255, 255); height: 51px; width: 336px; position: absolute; right: 50%; font-size: 40px; translate: 50% 0; top: 10px; padding-left: 4px;"/>
+                <ui:Image name="RightWing" source="project://database/Assets/GameAssets/Visuals/UI/Icons/wreath.png?fileID=2800000&amp;guid=8bdcace6d4b75894e959b4b95858c197&amp;type=3#wreath" style="position: absolute; height: 153px; width: 198px; top: -43px; left: 392px;"/>
+                <ui:Image name="LeftWing" source="project://database/Assets/GameAssets/Visuals/UI/Icons/wreath.png?fileID=2800000&amp;guid=8bdcace6d4b75894e959b4b95858c197&amp;type=3#wreath" class="title" style="position: absolute; height: 153px; width: 198px; top: -43px; left: auto; right: 392px; rotate: 180deg;"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="CategoryBox" class="scoreTab" style="flex-grow: 0; -unity-background-image-tint-color: rgb(245, 245, 245); width: 882px; height: 50px; background-color: rgb(104, 126, 152); margin-top: 80px; border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px; flex-direction: row; justify-content: space-between; align-items: stretch; align-self: auto; align-content: auto;">
+                <ui:Label text="#" name="Hashtag" class="text" style="margin-left: 20px;"/>
+                <ui:Label text="Player" name="PlayerText" class="text"/>
+                <ui:VisualElement name="CoinTabBox" style="flex-grow: 0; flex-direction: row;">
+                    <ui:Image name="CoinIcon" source="project://database/Assets/GameAssets/Visuals/UI/Icons/dollar.png?fileID=2800000&amp;guid=96c01e1e5334bc94fabf1311318df8f4&amp;type=3#dollar" style="width: 38px; height: 48px;"/>
+                    <ui:Label text="Coins&#10;" class="text"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="MetersTabBox" style="flex-grow: 0; flex-direction: row;">
+                    <ui:Image source="project://database/Assets/GameAssets/Visuals/UI/Icons/pin.png?fileID=2800000&amp;guid=ec2d73d1cc80645478436bc9bb4e8edf&amp;type=3#pin" style="width: 38px; height: 48px;"/>
+                    <ui:Label text="Meters" class="text"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="ScoreBox" style="flex-grow: 0; flex-direction: row; margin-right: 20px;">
+                    <ui:Image source="project://database/Assets/GameAssets/Visuals/UI/Icons/star.png?fileID=2800000&amp;guid=8c6855c31912d924695e7d06662eda72&amp;type=3#star" style="width: 38px; height: 48px;"/>
+                    <ui:Label text="Score" class="text"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="ScoresBox" style="flex-grow: 0; height: 466px; width: 881px; margin-top: 1px;">
+                <ui:VisualElement name="ScoreTabBox" class="scoreTab" style="flex-grow: 0; -unity-background-image-tint-color: rgb(245, 245, 245); width: 882px; height: 50px; background-color: rgb(71, 118, 173); margin-top: 0; border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px; flex-direction: row; justify-content: space-between; align-items: stretch; align-self: auto; align-content: auto;">
+                    <ui:VisualElement name="Place" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/GameAssets/Visuals/UI/UIElements/Hexagon.png?fileID=2800000&amp;guid=a15b00d319f1ffd49be98c3418c8385e&amp;type=3#Hexagon&quot;); height: 46px; width: 48px; margin-left: 12px; -unity-background-image-tint-color: rgb(221, 221, 74); margin-top: 2px;">
+                        <ui:Label text="1" class="text" style="height: 42px; width: 41px;"/>
+                    </ui:VisualElement>
+                    <ui:Label text="Player" name="PlayerText" class="text" style="width: 175px;"/>
+                    <ui:VisualElement name="CoinTabBox" style="flex-grow: 0; flex-direction: row; width: 175px;">
+                        <ui:Image name="CoinIcon" source="project://database/Assets/GameAssets/Visuals/UI/Icons/dollar.png?fileID=2800000&amp;guid=96c01e1e5334bc94fabf1311318df8f4&amp;type=3#dollar" style="width: 38px; height: 48px;"/>
+                        <ui:Label text="35153" class="text"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="MetersTabBox" style="flex-grow: 0; flex-direction: row; width: 175px;">
+                        <ui:Image source="project://database/Assets/GameAssets/Visuals/UI/Icons/pin.png?fileID=2800000&amp;guid=ec2d73d1cc80645478436bc9bb4e8edf&amp;type=3#pin" style="width: 38px; height: 48px;"/>
+                        <ui:Label text="213251" class="text"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="ScoreBox" style="flex-grow: 0; flex-direction: row; margin-right: 0; width: 175px;">
+                        <ui:Image source="project://database/Assets/GameAssets/Visuals/UI/Icons/star.png?fileID=2800000&amp;guid=8c6855c31912d924695e7d06662eda72&amp;type=3#star" style="width: 38px; height: 48px;"/>
+                        <ui:Label text="34" class="text"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
