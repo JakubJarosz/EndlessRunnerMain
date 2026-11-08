@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public event Action<GameState> GameStateChanged;
 
     public enum GameState {
+        PreGame,
         Gameplay,
         Death
     }
@@ -16,7 +17,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake() {
         Instance = this;
-        UpdateGameState(GameState.Gameplay);
+        UpdateGameState(GameState.PreGame);
     }
 
     public void UpdateGameState(GameState gameState) {

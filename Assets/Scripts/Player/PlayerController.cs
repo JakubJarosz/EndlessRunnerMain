@@ -146,7 +146,7 @@ public class PlayerController : MonoBehaviour {
 
     private void CenterPlayer() {
         Vector2 pos = transform.position;
-        // 2f is the speed of the centering
+        // 2f is the paralaxMultip of the centering
         pos.x = Mathf.MoveTowards(pos.x, 0f, 2f * Time.deltaTime);
         transform.position = pos;
     }

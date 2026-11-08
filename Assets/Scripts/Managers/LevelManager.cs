@@ -58,7 +58,7 @@ public class LevelManager : MonoBehaviour
         prevAddedPart = Instantiate(newPart, new Vector3(prevAddedPart.transform.position.x + 50f, -8.9f, 0), Quaternion.identity, levelParent);
         levelPartsQueue.Enqueue(prevAddedPart);
 
-        // Slow pick up logic, if current speed is above X setActive one slow pickup
+        // Slow pick up logic, if current paralaxMultip is above X setActive one slow pickup
         if (levelMovement.currentSpeed >= 12f && canPickupSpawn) {
             prevAddedPart.GetComponentInChildren<SlowPickupHandler>().SpawnSlowPickup();
             canPickupSpawn = false;

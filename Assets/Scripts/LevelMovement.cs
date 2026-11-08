@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class LevelMovement : MonoBehaviour
 {
+    public static LevelMovement Instance { private set; get; }
+
     [SerializeField] private PlayerController playerController;
     [SerializeField] private PlayerDash playerDash;
 
@@ -11,7 +13,11 @@ public class LevelMovement : MonoBehaviour
     [SerializeField] private float slowPickupMovementDescrease;
 
     public float currentSpeed { private set; get; }
-    private float speedModifier = 1f;
+    public float speedModifier { private set; get; } = 1f;
+
+    private void Awake() {
+        Instance = this;
+    }
 
     private void Start() {
         currentSpeed = startingSpeed;

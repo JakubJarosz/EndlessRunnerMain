@@ -21,6 +21,8 @@ public class PlayerVisual : MonoBehaviour
     private void Instance_GameStateChanged(GameManager.GameState obj) {
         if (obj == GameManager.GameState.Death) {
             anim.SetTrigger("death");
+        } else if (obj == GameManager.GameState.Gameplay) {
+            anim.SetTrigger("gameStart");
         }
     }
 
