@@ -14,6 +14,7 @@ public class LevelMovement : MonoBehaviour
 
     public float currentSpeed { private set; get; }
     public float speedModifier { private set; get; } = 1f;
+    public float totalDistance { private set; get; }
 
     private void Awake() {
         Instance = this;
@@ -33,6 +34,7 @@ public class LevelMovement : MonoBehaviour
         SetSpeedModifiers();
         SpeedIncrease();
         transform.position += currentSpeed * speedModifier * Vector3.left * Time.deltaTime;
+        totalDistance += currentSpeed * Time.deltaTime;
     }
 
     private void SpeedIncrease() {

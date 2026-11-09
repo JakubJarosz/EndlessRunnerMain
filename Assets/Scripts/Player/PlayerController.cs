@@ -46,7 +46,9 @@ public class PlayerController : MonoBehaviour {
 
     private void Start() {
         jump.TryToJump += HandleTryToJump;
+        GameManager.Instance.GameStateChanged += Instance_GameStateChanged;
     }
+
     private void Update() {
         HandeState();
         HandleGravity();
@@ -153,6 +155,11 @@ public class PlayerController : MonoBehaviour {
 
     // ----------------- Events -----------------
 
+    private void Instance_GameStateChanged(GameManager.GameState obj) {
+        if (obj == GameManager.GameState.PreGame) {
+            transform.position = new Vector3(0f, -6.03f, 0f);
+        }
+    }
 
     // ----------------- Properties -----------------
     public float GetVerticalVelocity => rb.linearVelocity.y;

@@ -23,6 +23,8 @@ public class PlayerVisual : MonoBehaviour
             anim.SetTrigger("death");
         } else if (obj == GameManager.GameState.Gameplay) {
             anim.SetTrigger("gameStart");
+        } else if (obj == GameManager.GameState.PreGame) {
+            anim.SetTrigger("preGame");
         }
     }
 

@@ -6,19 +6,29 @@ using UnityEngine.UIElements;
 public class UIController : MonoBehaviour
 {
     private UIDocument uiDocuemnt;
+    private GameStats gameStats;
+
     [SerializeField] private VisualTreeAsset MainMenuUI;
     [SerializeField] private VisualTreeAsset InGameUI;
     [SerializeField] private VisualTreeAsset ScoreboardUI;
 
+    private bool isGamePlaying;
 
     private void Awake() {
         uiDocuemnt = GetComponent<UIDocument>();
     }
 
     private void Start() {
+        gameStats = GameStats.Instance;
         GameManager.Instance.GameStateChanged += Instance_GameStateChanged;
         SwitchUI(MainMenuUI);
         HandleMainMenuUI();
+    }
+
+    private void Update() {
+       if (isGamePlaying) {
+            HandleInGameUI();
+        }
     }
 
     private void SwitchUI(VisualTreeAsset newUI) {
@@ -31,11 +41,14 @@ public class UIController : MonoBehaviour
         if (state == GameManager.GameState.PreGame) {
             SwitchUI(MainMenuUI);
             HandleMainMenuUI();
+            isGamePlaying = false;
         } else if (state == GameManager.GameState.Gameplay) {
             SwitchUI(InGameUI);
+            isGamePlaying = true;
         } else if (state == GameManager.GameState.Death) {
             SwitchUI(ScoreboardUI);
             HandleScoreboardUI();
+            isGamePlaying = false;
         }
     }
 
@@ -64,5 +77,15 @@ public class UIController : MonoBehaviour
             Debug.Log("App close");
             Application.Quit();
         }));
+    }
+
+    private void HandleInGameUI() {
+        Label distance = uiDocuemnt.rootVisualElement.Q<Label>("DistanceText");
+        Label coins = uiDocuemnt.rootVisualElement.Q<Label>("CoinText");
+        Label speed = uiDocuemnt.rootVisualElement.Q<Label>("SpeedText");
+
+        distance.text = gameStats.distance.ToString() + " m";
+        coins.text = gameStats.coinCount.ToString();
+        speed.text = gameStats.speed.ToString() + " m/s";
     }
 }
