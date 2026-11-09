@@ -3076,7 +3076,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
   m_PanelSettings: {fileID: 11400000, guid: 8c68d70229aafa445b24c3683db7bbf2, type: 2}
   m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: 67f55fd52efb1f248a5fc32b0c077169, type: 3}
+  sourceAsset: {fileID: 0}
   m_SortingOrder: 0
   m_Position: 0
   m_WorldSpaceSizeMode: 1
@@ -3112,7 +3112,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69a4ee5aba30a7f42b823dd5a6da4852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIController
-  uiDocument: {fileID: 2094843462}
+  MainMenuUI: {fileID: 9197481963319205126, guid: 7e193a48994f9d042a58937fe7cee65e, type: 3}
+  InGameUI: {fileID: 9197481963319205126, guid: 8c767bb82b6b4c7499dbdfbafd3ec8c1, type: 3}
+  ScoreboardUI: {fileID: 9197481963319205126, guid: 67f55fd52efb1f248a5fc32b0c077169, type: 3}
 --- !u!1001 &8473216438819065967
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -36,7 +36,10 @@ public class LevelManager : MonoBehaviour
     private void Update() {
         RemovePart();
 
-        // handle adding new part to always have maxLevelParts amount in runtime
+        // handle adding new part to always have maxLevelParts amount in GamePlay state
+        if (GameManager.Instance.state == GameManager.GameState.Gameplay) {
+            HandleLevelParts();
+        }
         if (levelPartsQueue.Count < maxLevelParts) {
             AddNewPart();
 
@@ -72,6 +75,13 @@ public class LevelManager : MonoBehaviour
         if (part.transform.position.x <= -100f) {
             GameObject partToDestroy = levelPartsQueue.Dequeue();
             //Debug.Log(part);
+            Destroy(partToDestroy);
+        }
+    }
+
+    private void RemoveAllParts() {
+               while (levelPartsQueue.Count > 0) {
+            GameObject partToDestroy = levelPartsQueue.Dequeue();
             Destroy(partToDestroy);
         }
     }

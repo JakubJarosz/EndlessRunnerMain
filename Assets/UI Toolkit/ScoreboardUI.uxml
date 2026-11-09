@@ -46,5 +46,13 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
+        <ui:VisualElement name="RetryButton" class="button" style="flex-grow: 0; position: absolute; background-image: url(&quot;project://database/Assets/GameAssets/Visuals/UI/UIElements/Hexagon.png?fileID=2800000&amp;guid=a15b00d319f1ffd49be98c3418c8385e&amp;type=3#Hexagon&quot;); width: 155px; height: 58px; background-position-x: center; -unity-background-scale-mode: scale-and-crop; top: 580px; left: 1118px; -unity-background-image-tint-color: rgb(241, 115, 115); flex-direction: row;">
+            <ui:Image source="project://database/Assets/GameAssets/Visuals/UI/Icons/reload.png?fileID=2800000&amp;guid=596737f74f3f2824284f144743418375&amp;type=3#reload" style="height: 58px; width: 42px; margin-left: 22px;"/>
+            <ui:Label text="Retry" style="-unity-font-definition: url(&quot;project://database/Assets/GameAssets/Visuals/Kaph_Font_1_20/OpenType%20(.otf)/Kaph-Regular.otf?fileID=12800000&amp;guid=b6558aa0efa0b4149ad5131051e2c81a&amp;type=3#Kaph-Regular&quot;); font-size: 16px; -unity-text-align: middle-center;"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="ExitButton" class="button" style="flex-grow: 0; position: absolute; background-image: url(&quot;project://database/Assets/GameAssets/Visuals/UI/UIElements/Hexagon.png?fileID=2800000&amp;guid=a15b00d319f1ffd49be98c3418c8385e&amp;type=3#Hexagon&quot;); width: 155px; height: 58px; background-position-x: center; -unity-background-scale-mode: scale-and-crop; top: 647px; left: 1118px; -unity-background-image-tint-color: rgb(241, 114, 114); flex-direction: row;">
+            <ui:Image source="project://database/Assets/GameAssets/Visuals/UI/Icons/sign-out-option.png?fileID=2800000&amp;guid=ec727129a7de7704a8f8dd2740666e5d&amp;type=3#sign-out-option" style="width: 42px; height: 58px; margin-left: 22px;"/>
+            <ui:Label text="Quit" style="-unity-font-definition: url(&quot;project://database/Assets/GameAssets/Visuals/Kaph_Font_1_20/OpenType%20(.otf)/Kaph-Regular.otf?fileID=12800000&amp;guid=b6558aa0efa0b4149ad5131051e2c81a&amp;type=3#Kaph-Regular&quot;); font-size: 19px; -unity-text-align: middle-left;"/>
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
