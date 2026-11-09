@@ -22,14 +22,19 @@ public class LevelManager : MonoBehaviour
         levelMovement = levelParent.GetComponent<LevelMovement>();
         canPickupSpawn = true;
 
-        for (int i = 0; i < maxLevelParts; i++) {
-            if (i == 0) {
-                // Enqueue the initial part of the level, the part is already instantiated in the scene, so we just need to add it to the queue
-                prevAddedPart = initialPart;
-                levelPartsQueue.Enqueue(initialPart);
-            } else {
-                AddNewPart();
+        HandleInitialPartSpawn();
+    }
+
+    private void Start() {
+        GameManager.Instance.GameStateChanged += Instance_GameStateChanged;
+    }
+
+    private void Instance_GameStateChanged(GameManager.GameState obj) {
+        if (obj == GameManager.GameState.PreGame) {
+            if (levelPartsQueue.Count > 0) {
+                RemoveAllParts();
             }
+            HandleInitialPartSpawn();
         }
     }
 
@@ -38,21 +43,32 @@ public class LevelManager : MonoBehaviour
 
         // handle adding new part to always have maxLevelParts amount in GamePlay state
         if (GameManager.Instance.state == GameManager.GameState.Gameplay) {
-            HandleLevelParts();
-        }
-        if (levelPartsQueue.Count < maxLevelParts) {
-            AddNewPart();
+            if (levelPartsQueue.Count < maxLevelParts) {
+                AddNewPart();
 
-            // handle slowpickup count
-            if (levelMovement.currentSpeed >= 12f) {
-                spawnAfterSlowCount++;
+                // handle slowpickup count
+                if (levelMovement.currentSpeed >= 12f) {
+                    spawnAfterSlowCount++;
+                }
             }
         }
-
+      
         // if slowpickup count is higher or equal then x allow for another slowpickup spawn
         // it will spawn after X - 1 parts will spawn 
         if (spawnAfterSlowCount >= 4) {
             canPickupSpawn = true;
+        }
+    }
+
+    private void HandleInitialPartSpawn() {
+        for (int i = 0; i < maxLevelParts; i++) {
+            if (i == 0) {
+                // Enqueue the initial part of the level
+                prevAddedPart = Instantiate(initialPart, new Vector3(0f, -8.9f, 0), Quaternion.identity, levelParent);
+                levelPartsQueue.Enqueue(prevAddedPart);
+            } else {
+                AddNewPart();
+            }
         }
     }
 
