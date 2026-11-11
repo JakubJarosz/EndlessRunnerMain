@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-
 public class UIController : MonoBehaviour
 {
     private UIDocument uiDocuemnt;
@@ -85,23 +84,30 @@ public class UIController : MonoBehaviour
             Application.Quit();
         }));
 
-        // Updating the scoreboard UI with the player's stats
+        // Handling The population of scoreboard
         VisualElement parent = uiDocuemnt.rootVisualElement.Q<VisualElement>("ScoresBox");
-        VisualElement scoreElem = ScoreElemPref.Instantiate();
-        parent.Add(scoreElem);
+        SaveSystem.SaveData save = SaveSystem.Instance.LoadGame();
 
-        // Updating the labels in the scoreboard UI with the player's stats
-        Label coin = uiDocuemnt.rootVisualElement.Q<Label>("CoinText");
-        Label distance = uiDocuemnt.rootVisualElement.Q<Label>("MetersText");
-        Label score = uiDocuemnt.rootVisualElement.Q<Label>("ScoreText");
+        foreach (GameStats.SaveScore el in save.scoreboardList) {
+          
+        }
 
-        coin.text = gameStats.coinCount.ToString();
-        distance.text = gameStats.distanceCount.ToString() + " m";
-        int scoreValue = gameStats.coinCount == 0 ? gameStats.distanceCount : gameStats.coinCount * gameStats.distanceCount;
-        score.text = scoreValue.ToString();
-
-
-
+        for (int i = 0; i < save.scoreboardList.Count; i++) {
+            // Instantiate element
+            VisualElement scoreElem = ScoreElemPref.Instantiate();
+            // Add to parent
+            parent.Add(scoreElem);
+            // Get reference to label elements of instantiated element
+            Label place = scoreElem.Q<Label>("PlaceText");
+            Label coin = scoreElem.Q<Label>("CoinText");
+            Label distance = scoreElem.Q<Label>("MetersText");
+            Label score = scoreElem.Q<Label>("ScoreText");
+            // Update values of labels
+            place.text = (i+1).ToString();
+            coin.text = save.scoreboardList[i].coins.ToString();
+            distance.text = save.scoreboardList[i].distance.ToString() + " m";
+            score.text = save.scoreboardList[i].score.ToString();
+        }
     }
 
     private void HandleInGameUI() {
