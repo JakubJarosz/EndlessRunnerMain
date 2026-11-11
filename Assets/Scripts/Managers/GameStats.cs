@@ -35,14 +35,15 @@ public class GameStats : MonoBehaviour
     }
 
     // ------------ Save System ------------
-    public class SaveData {
+    [System.Serializable]
+    public class SaveScore {
         public int coins;
         public int distance;
         public int score;
     }
 
-    public SaveData Save() {
-        return new SaveData {
+    public SaveScore Save() {
+        return new SaveScore {
             coins = coinCount,
             distance = distanceCount,
             score = coinCount == 0 ? distanceCount : coinCount * distanceCount,

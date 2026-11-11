@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEditor.Overlays;
 using UnityEngine;
+using static GameStats;
 
 public class SaveSystem : MonoBehaviour
 {
@@ -13,8 +14,7 @@ public class SaveSystem : MonoBehaviour
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.N)) {
-            //SaveGame();
-            Debug.Log("N was pressed");
+            SaveGame();
         }
 
         if (Input.GetKeyDown(KeyCode.M)) {
@@ -22,10 +22,15 @@ public class SaveSystem : MonoBehaviour
         }     
     }
 
+    [System.Serializable]
+    public class SaveData {
+        public List<SaveScore> scoreboardList;
+    }
+
     private void SaveGame() {
-        //GameStats.Instance.Save();
-        //string data = JsonUtility.ToJson(scoreList);
-        //Debug.Log(JsonUtility.ToJson(scoreList));
+        GameStats.SaveScore saveObject = GameStats.Instance.Save();
+        string json = JsonUtility.ToJson(saveObject);
+        Debug.Log(json);
     }
 
     private void LoadGame() {
