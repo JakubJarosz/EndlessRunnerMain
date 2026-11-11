@@ -350,7 +350,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1322256255
-  m_SortingLayer: 2
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 4723107735738678597, guid: b03a862bfa75058458ebb99f855476d8, type: 3}
@@ -847,7 +847,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 00000000698c26fe81f82fb12b1d017d434577c8
+  m_ApplyToSortingLayers: 00000000698c26fe81f82fb12b1d017d434577c8d7216b249d91a2c48f9c3114
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -2647,7 +2647,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &1818240852
 BoxCollider2D:
@@ -2659,7 +2659,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 26770ace718719f45811b3f5afb8c6ab, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -2755,6 +2755,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDash
   dashMovementMultiplier: 2
   dashDuration: 0.5
+  cooldownDuration: 0.2
 --- !u!114 &1818240857
 MonoBehaviour:
   m_ObjectHideFlags: 0
