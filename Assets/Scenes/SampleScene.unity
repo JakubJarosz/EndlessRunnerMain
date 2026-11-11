@@ -505,6 +505,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BackgroundMovement
   paralaxMultip: 0.6
+--- !u!1 &307998169
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 307998170}
+  - component: {fileID: 307998171}
+  m_Layer: 0
+  m_Name: SaveSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &307998170
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307998169}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1137638394}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &307998171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307998169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2ad1218c16bcb64b8add6fdb0d44831, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SaveSystem
 --- !u!1 &459895210
 GameObject:
   m_ObjectHideFlags: 0
@@ -1630,6 +1674,7 @@ Transform:
   - {fileID: 1645804915}
   - {fileID: 859257469}
   - {fileID: 104150585}
+  - {fileID: 307998170}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1243257456
@@ -2172,7 +2217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 802168daed1ab7c4b90ad06c5a26a48a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelManager
-  initialPart: {fileID: 7384594616002786856, guid: 9fdb70096bd853b46b8b68fbda4dc12d, type: 3}
+  initialPart: {fileID: 844278519801409536, guid: 19f526baae4842f4f82c927eab6f179d, type: 3}
   levelParent: {fileID: 788771425}
   levelSO: {fileID: 11400000, guid: 5443546793b05624081cdb03c261e851, type: 2}
 --- !u!1 &1657698936
@@ -3104,6 +3149,7 @@ MonoBehaviour:
   MainMenuUI: {fileID: 9197481963319205126, guid: 7e193a48994f9d042a58937fe7cee65e, type: 3}
   InGameUI: {fileID: 9197481963319205126, guid: 8c767bb82b6b4c7499dbdfbafd3ec8c1, type: 3}
   ScoreboardUI: {fileID: 9197481963319205126, guid: 67f55fd52efb1f248a5fc32b0c077169, type: 3}
+  ScoreElemPref: {fileID: 9197481963319205126, guid: ff0a3e1744c3c6a47a36cd4bc1ce7cfd, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

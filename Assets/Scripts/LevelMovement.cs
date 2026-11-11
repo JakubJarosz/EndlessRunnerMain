@@ -21,8 +21,16 @@ public class LevelMovement : MonoBehaviour
     }
 
     private void Start() {
+        GameManager.Instance.GameStateChanged += Instance_GameStateChanged;
         currentSpeed = startingSpeed;
         SlowPickup.SlowPickupCollected += SlowPickup_SlowPickupCollected;
+    }
+
+    private void Instance_GameStateChanged(GameManager.GameState obj) {
+        if (obj == GameManager.GameState.PreGame) {
+            currentSpeed = startingSpeed;
+            totalDistance = 0f;
+        }
     }
 
     private void SlowPickup_SlowPickupCollected() {
@@ -34,7 +42,7 @@ public class LevelMovement : MonoBehaviour
         SetSpeedModifiers();
         SpeedIncrease();
         transform.position += currentSpeed * speedModifier * Vector3.left * Time.deltaTime;
-        totalDistance += currentSpeed * Time.deltaTime;
+        totalDistance += currentSpeed * speedModifier * Time.deltaTime;
     }
 
     private void SpeedIncrease() {

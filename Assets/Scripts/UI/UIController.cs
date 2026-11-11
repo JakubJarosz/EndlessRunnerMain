@@ -12,6 +12,8 @@ public class UIController : MonoBehaviour
     [SerializeField] private VisualTreeAsset InGameUI;
     [SerializeField] private VisualTreeAsset ScoreboardUI;
 
+    [SerializeField] private VisualTreeAsset ScoreElemPref;
+
     private bool isGamePlaying;
 
     private void Awake() {
@@ -66,6 +68,7 @@ public class UIController : MonoBehaviour
     }
 
     private void HandleScoreboardUI() {
+        // Adding clickable events to the buttons in the scoreboard UI
         VisualElement retryButton = uiDocuemnt.rootVisualElement.Q<VisualElement>("RetryButton");
         VisualElement exitButton = uiDocuemnt.rootVisualElement.Q<VisualElement>("ExitButton");
 
@@ -77,6 +80,21 @@ public class UIController : MonoBehaviour
             Debug.Log("App close");
             Application.Quit();
         }));
+
+        // Updating the scoreboard UI with the player's stats
+        VisualElement parent = uiDocuemnt.rootVisualElement.Q<VisualElement>("ScoresBox");
+        VisualElement scoreElem = ScoreElemPref.Instantiate();
+        parent.Add(scoreElem);
+
+        // Updating the labels in the scoreboard UI with the player's stats
+        Label coin = uiDocuemnt.rootVisualElement.Q<Label>("CoinText");
+        Label distance = uiDocuemnt.rootVisualElement.Q<Label>("MetersText");
+        Label score = uiDocuemnt.rootVisualElement.Q<Label>("ScoreText");
+
+        coin.text = gameStats.coinCount.ToString();
+        distance.text = gameStats.distanceCount.ToString() + " m";
+        int scoreValue = gameStats.coinCount == 0 ? gameStats.distanceCount : gameStats.coinCount * gameStats.distanceCount;
+        score.text = scoreValue.ToString();
     }
 
     private void HandleInGameUI() {
@@ -84,7 +102,7 @@ public class UIController : MonoBehaviour
         Label coins = uiDocuemnt.rootVisualElement.Q<Label>("CoinText");
         Label speed = uiDocuemnt.rootVisualElement.Q<Label>("SpeedText");
 
-        distance.text = gameStats.distance.ToString() + " m";
+        distance.text = gameStats.distanceCount.ToString() + " m";
         coins.text = gameStats.coinCount.ToString();
         speed.text = gameStats.speed.ToString() + " m/s";
     }
