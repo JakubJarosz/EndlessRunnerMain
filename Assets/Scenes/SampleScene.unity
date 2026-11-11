@@ -3149,6 +3149,7 @@ MonoBehaviour:
   MainMenuUI: {fileID: 9197481963319205126, guid: 7e193a48994f9d042a58937fe7cee65e, type: 3}
   InGameUI: {fileID: 9197481963319205126, guid: 8c767bb82b6b4c7499dbdfbafd3ec8c1, type: 3}
   ScoreboardUI: {fileID: 9197481963319205126, guid: 67f55fd52efb1f248a5fc32b0c077169, type: 3}
+  DeathUI: {fileID: 9197481963319205126, guid: 4760caa6d4226a74e8ca71b35a119a36, type: 3}
   ScoreElemPref: {fileID: 9197481963319205126, guid: ff0a3e1744c3c6a47a36cd4bc1ce7cfd, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

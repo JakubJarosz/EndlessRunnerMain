@@ -11,6 +11,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private VisualTreeAsset MainMenuUI;
     [SerializeField] private VisualTreeAsset InGameUI;
     [SerializeField] private VisualTreeAsset ScoreboardUI;
+    [SerializeField] private VisualTreeAsset DeathUI;
 
     [SerializeField] private VisualTreeAsset ScoreElemPref;
 
@@ -48,10 +49,13 @@ public class UIController : MonoBehaviour
             SwitchUI(InGameUI);
             isGamePlaying = true;
         } else if (state == GameManager.GameState.Death) {
+            SwitchUI(DeathUI);
+            isGamePlaying = false;
+        } else if (state == GameManager.GameState.Scoreboard) {
             SwitchUI(ScoreboardUI);
             HandleScoreboardUI();
             isGamePlaying = false;
-        }
+        } 
     }
 
     private void HandleMainMenuUI() {
@@ -95,6 +99,9 @@ public class UIController : MonoBehaviour
         distance.text = gameStats.distanceCount.ToString() + " m";
         int scoreValue = gameStats.coinCount == 0 ? gameStats.distanceCount : gameStats.coinCount * gameStats.distanceCount;
         score.text = scoreValue.ToString();
+
+
+
     }
 
     private void HandleInGameUI() {

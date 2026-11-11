@@ -1,0 +1,5 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="Background" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.29);">
+        <ui:Label text="Death" style="-unity-font-definition: url(&quot;project://database/Assets/GameAssets/Visuals/Kaph_Font_1_20/TrueType%20(.ttf)/Kaph-Regular.ttf?fileID=12800000&amp;guid=198d73bfd9f2ce5489162b0c8be2399e&amp;type=3#Kaph-Regular&quot;); font-size: 103px; -unity-text-align: middle-center; flex-grow: 1;"/>
+    </ui:VisualElement>
+</ui:UXML>

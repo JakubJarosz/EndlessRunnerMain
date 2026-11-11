@@ -1,25 +1,15 @@
 using System.Collections.Generic;
+using System.IO;
 using UnityEditor.Overlays;
 using UnityEngine;
 using static GameStats;
 
 public class SaveSystem : MonoBehaviour
 {
-
-    private List<int> scoreList;
-
-    private void Awake() {
-        scoreList = new List<int>() { 1, 2, 3 };
-    }
-
     private void Update() {
         if (Input.GetKeyDown(KeyCode.N)) {
             SaveGame();
-        }
-
-        if (Input.GetKeyDown(KeyCode.M)) {
-            LoadGame();
-        }     
+        }    
     }
 
     [System.Serializable]
@@ -27,13 +17,17 @@ public class SaveSystem : MonoBehaviour
         public List<SaveScore> scoreboardList;
     }
 
-    private void SaveGame() {
+    public void SaveGame() {
         GameStats.SaveScore saveObject = GameStats.Instance.Save();
-        string json = JsonUtility.ToJson(saveObject);
+        SaveData saveData = LoadGame();
+        saveData.scoreboardList.Add(saveObject);
+        string json = JsonUtility.ToJson(saveData);
+        File.WriteAllText(Application.dataPath + "/Saves/saveFile.sav", json);
         Debug.Log(json);
     }
 
-    private void LoadGame() {
-
+    public SaveData LoadGame() {
+        string json = File.ReadAllText(Application.dataPath + "/Saves/saveFile.sav");
+        return JsonUtility.FromJson<SaveData>(json);
     }
 }

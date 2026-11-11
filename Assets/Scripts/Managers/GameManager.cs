@@ -10,7 +10,8 @@ public class GameManager : MonoBehaviour
     public enum GameState {
         PreGame,
         Gameplay,
-        Death
+        Death,
+        Scoreboard
     }
 
     public GameState state { get; private set; }
@@ -18,6 +19,12 @@ public class GameManager : MonoBehaviour
     private void Awake() {
         Instance = this;
         UpdateGameState(GameState.PreGame);
+    }
+
+    private void Update() {
+        if(Input.GetKeyDown(KeyCode.P)) {
+            UpdateGameState(GameState.Scoreboard);
+        }
     }
 
     public void UpdateGameState(GameState gameState) {
