@@ -44,14 +44,23 @@ TagManager:
   - name: Background
     uniqueID: 4263939177
     locked: 0
-  - name: Player
-    uniqueID: 2972711041
-    locked: 0
   - name: Platforms
     uniqueID: 2097225003
     locked: 0
+  - name: PlatformVisual
+    uniqueID: 611000791
+    locked: 0
+  - name: DecorationsWithCollider
+    uniqueID: 338795663
+    locked: 0
+  - name: DecorationsNoCollider
+    uniqueID: 3298988445
+    locked: 0
   - name: Pickups
     uniqueID: 3363259715
+    locked: 0
+  - name: Player
+    uniqueID: 2972711041
     locked: 0
   m_RenderingLayers:
   - Default

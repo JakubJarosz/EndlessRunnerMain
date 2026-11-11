@@ -50,20 +50,14 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void Update() {
-        HandeState();
-        HandleGravity();
-        HandlePlayerPosition();
-        //switch (currentState) {
-        //    case PlayerState.Run:
-
-        //        break;
-        //    case PlayerState.Jump:
-
-        //        break;
-        //    case PlayerState.Fall:
-
-        //        break;
-        //}
+        if (GameManager.Instance.state == GameManager.GameState.Gameplay) {
+            HandeState();
+            HandleGravity();
+            HandlePlayerPosition();
+        } else if (GameManager.Instance.state == GameManager.GameState.Death) {
+            rb.gravityScale = 0f;
+            rb.linearVelocity = Vector2.zero;
+        }
     }
 
     // ----------------- Private Methods -----------------

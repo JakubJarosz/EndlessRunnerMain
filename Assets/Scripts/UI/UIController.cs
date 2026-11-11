@@ -84,14 +84,12 @@ public class UIController : MonoBehaviour
             Application.Quit();
         }));
 
-        // Handling The population of scoreboard
+
         VisualElement parent = uiDocuemnt.rootVisualElement.Q<VisualElement>("ScoresBox");
         SaveSystem.SaveData save = SaveSystem.Instance.LoadGame();
 
-        foreach (GameStats.SaveScore el in save.scoreboardList) {
-          
-        }
 
+        // Handling The population of scoreboard
         for (int i = 0; i < save.scoreboardList.Count; i++) {
             // Instantiate element
             VisualElement scoreElem = ScoreElemPref.Instantiate();
