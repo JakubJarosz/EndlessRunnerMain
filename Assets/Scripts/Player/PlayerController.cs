@@ -158,4 +158,5 @@ public class PlayerController : MonoBehaviour {
     // ----------------- Properties -----------------
     public float GetVerticalVelocity => rb.linearVelocity.y;
 
+    public float GetPlayerXPos => transform.position.x;
 }

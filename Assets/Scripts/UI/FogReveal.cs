@@ -23,8 +23,7 @@ public class FogReveal : MonoBehaviour {
             float t = Mathf.Clamp01(elapsedTime / duration);
             float value = Mathf.Lerp(fogRevealMin, fogRevealMax, t);
 
-            fogMaterial.SetFloat("_FogReveal", value);
-            Debug.Log(fogMaterial.GetFloat("_FogReveal"));
+            fogMaterial.SetFloat("_FogReveal", value);      
         }
     }
 

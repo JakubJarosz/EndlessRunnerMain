@@ -3978,7 +3978,7 @@
     "m_Hidden": false,
     "m_PerRendererData": false,
     "m_customAttributes": [],
-    "m_Value": 0.30000001192092898,
+    "m_Value": 1.0499999523162842,
     "m_FloatType": 1,
     "m_LiteralFloatMode": false,
     "m_RangeValues": {
@@ -4354,8 +4354,8 @@
     "m_ObjectId": "ddd6ceadbab7436fa5b45081554ae082",
     "m_Title": "Fog Thicness and Movement",
     "m_Position": {
-        "x": -2633.0,
-        "y": 344.0
+        "x": -2633.000244140625,
+        "y": 344.0000305175781
     }
 }
 

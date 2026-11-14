@@ -350,7 +350,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1322256255
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 4723107735738678597, guid: b03a862bfa75058458ebb99f855476d8, type: 3}
@@ -810,6 +810,55 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
+--- !u!1 &528775249
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 528775251}
+  - component: {fileID: 528775250}
+  m_Layer: 0
+  m_Name: Global Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &528775250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528775249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.Volume
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: b2de90a0b91ceae47937376829d33def, type: 2}
+--- !u!4 &528775251
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528775249}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.9657862, y: -3.5003211, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -844,10 +893,10 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.52
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 00000000698c26fe81f82fb12b1d017d434577c8d7216b249d91a2c48f9c3114
+  m_ApplyToSortingLayers: 00000000698c26fe81f82fb12b1d017d434577c8d7216b249d91a2c48f9c3114051dae72
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -2027,7 +2076,7 @@ Transform:
   m_GameObject: {fileID: 1551799680}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.98, y: -1.31752, z: 0}
+  m_LocalPosition: {x: -18.65, y: -1.31752, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3091,6 +3140,7 @@ GameObject:
   - component: {fileID: 2094843462}
   - component: {fileID: 2094843464}
   - component: {fileID: 2094843465}
+  - component: {fileID: 2094843466}
   m_Layer: 5
   m_Name: UIDocument
   m_TagString: Untagged
@@ -3167,6 +3217,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FogReveal
   fogMaterial: {fileID: 2100000, guid: 039b7fa62db0c9c41ac968d81778734a, type: 2}
   duration: 3
+--- !u!114 &2094843466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2094843461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f893be4f81bd4e24ab7deef150f5b71e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FullScreenFogController
+  fogMaterial: {fileID: 2100000, guid: c247b1c734865d34090b1b2103d54173, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -3181,3 +3244,4 @@ SceneRoots:
   - {fileID: 1551799682}
   - {fileID: 2094843463}
   - {fileID: 1589724671}
+  - {fileID: 528775251}

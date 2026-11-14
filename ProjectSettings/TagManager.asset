@@ -59,6 +59,9 @@ TagManager:
   - name: Pickups
     uniqueID: 3363259715
     locked: 0
+  - name: GroundFog
+    uniqueID: 1924013317
+    locked: 0
   - name: Player
     uniqueID: 2972711041
     locked: 0
