@@ -3090,6 +3090,7 @@ GameObject:
   - component: {fileID: 2094843463}
   - component: {fileID: 2094843462}
   - component: {fileID: 2094843464}
+  - component: {fileID: 2094843465}
   m_Layer: 5
   m_Name: UIDocument
   m_TagString: Untagged
@@ -3152,6 +3153,20 @@ MonoBehaviour:
   ScoreboardUI: {fileID: 9197481963319205126, guid: 67f55fd52efb1f248a5fc32b0c077169, type: 3}
   DeathUI: {fileID: 9197481963319205126, guid: 4760caa6d4226a74e8ca71b35a119a36, type: 3}
   ScoreElemPref: {fileID: 9197481963319205126, guid: ff0a3e1744c3c6a47a36cd4bc1ce7cfd, type: 3}
+--- !u!114 &2094843465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2094843461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e0ba0719a825544a8568ff1767c4320, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FogReveal
+  fogMaterial: {fileID: 2100000, guid: 039b7fa62db0c9c41ac968d81778734a, type: 2}
+  duration: 3
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
