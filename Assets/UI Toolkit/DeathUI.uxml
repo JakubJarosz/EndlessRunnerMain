@@ -1,5 +1,0 @@
-<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement name="Background" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.341); position: absolute; width: 100%; height: 200px; flex-direction: column; top: auto; translate: 0 121%; bottom: auto; background-size: 100% 100%; justify-content: center; opacity: 0;">
-        <ui:Label text="Game Over" style="-unity-font-definition: url(&quot;project://database/Assets/GameAssets/Visuals/Kaph_Font_1_20/TrueType%20(.ttf)/Kaph-Regular.ttf?fileID=12800000&amp;guid=198d73bfd9f2ce5489162b0c8be2399e&amp;type=3#Kaph-Regular&quot;); font-size: 103px; -unity-text-align: middle-center; flex-grow: 1; opacity: 1; position: relative; width: 100%;"/>
-    </ui:VisualElement>
-</ui:UXML>
