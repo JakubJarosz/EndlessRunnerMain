@@ -2,24 +2,32 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEngine.Rendering.DebugUI;
 
 public class UIController : MonoBehaviour
 {
     private UIDocument uiDocuemnt;
     private GameStats gameStats;
 
+    [Header("UI UXML FILES")]
     [SerializeField] private VisualTreeAsset MainMenuUI;
     [SerializeField] private VisualTreeAsset InGameUI;
     [SerializeField] private VisualTreeAsset ScoreboardUI;
     [SerializeField] private VisualTreeAsset DeathUI;
-
     [SerializeField] private VisualTreeAsset ScoreElemPref;
+
+    [Header("TRANSITION VARIABLES")]
+    [SerializeField] private VisualTreeAsset TransitionUI;
+    [SerializeField] private Material fadeShader;
+    private VisualElement transitionOverlay;
+
 
     private bool isGamePlaying;
     private bool isDeath;
 
     private float deathUIDuration = 3f;
     private float deathUITimer;
+
 
     private void Awake() {
         uiDocuemnt = GetComponent<UIDocument>();
@@ -29,6 +37,10 @@ public class UIController : MonoBehaviour
         gameStats = GameStats.Instance;
         GameManager.Instance.GameStateChanged += Instance_GameStateChanged;
         GameStats.Instance.CoinPicked += Instance_CoinPicked;
+
+        // Instantiating Transition UXTML in memory 
+        
+
         SwitchUI(MainMenuUI);
         HandleMainMenuUI();
     }
@@ -42,9 +54,15 @@ public class UIController : MonoBehaviour
     }
 
     private void SwitchUI(VisualTreeAsset newUI) {
+        // Adding new UI
         uiDocuemnt.rootVisualElement.Clear();
         var UI = newUI.Instantiate();
         uiDocuemnt.rootVisualElement.Add(UI);
+
+
+        // Adding Temperaty Tranisiton Overlay to Root
+        transitionOverlay = TransitionUI.Instantiate().Q<VisualElement>("TransitionBackground");
+        uiDocuemnt.rootVisualElement.Add(transitionOverlay);
     }
 
     private void Instance_GameStateChanged(GameManager.GameState state) {
@@ -65,7 +83,7 @@ public class UIController : MonoBehaviour
             isGamePlaying = false;
             isDeath = false;
             deathUITimer = 0f;
-        } 
+        }
     }
 
     private void HandleMainMenuUI() {
@@ -141,7 +159,42 @@ public class UIController : MonoBehaviour
 
     // -------------- TRANSTION -----------------
 
+    private IEnumerator Transition(VisualTreeAsset UI) {
+        StartCoroutine(FadeIn());
+        SwitchUI(UI);
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(FadeOut());
+    }
 
+    private IEnumerator FadeIn() {
+        float duration = 1f;
+        float time = 0f;
+
+        while (time < 1f) {
+            time += Time.deltaTime / duration;
+
+            float value = Mathf.Lerp(0f, 1f, time);
+
+            fadeShader.SetFloat("_FadeAmount", value);
+
+            yield return null;
+        }
+    }
+
+    private IEnumerator FadeOut() {
+        float duration = 1f;
+        float time = 0f;
+
+        while (time < 1f) {
+            time += Time.deltaTime / duration;
+
+            float value = Mathf.Lerp(1f, 0f, time);
+
+            fadeShader.SetFloat("_FadeAmount", value);
+
+            yield return null;
+        }
+    }
 
     // --------------- EVENTS ------------------
     private void Instance_CoinPicked() {

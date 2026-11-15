@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -7,12 +8,13 @@ public class GameManager : MonoBehaviour
 
     public event Action<GameState> GameStateChanged;
 
+    private float transitionTime;
+
     public enum GameState {
         PreGame,
         Gameplay,
         Death,
-        Scoreboard,
-        Transition
+        Scoreboard
     }
 
     public GameState state { get; private set; }
@@ -32,4 +34,8 @@ public class GameManager : MonoBehaviour
         state = gameState;
         GameStateChanged?.Invoke(state);
     }
+
+    //private IEnumerator Transition() {
+
+    //}
 }
