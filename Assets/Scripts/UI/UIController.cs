@@ -139,6 +139,10 @@ public class UIController : MonoBehaviour
         element.style.opacity = value;
     }
 
+    // -------------- TRANSTION -----------------
+
+
+
     // --------------- EVENTS ------------------
     private void Instance_CoinPicked() {
         Image coinImg = uiDocuemnt.rootVisualElement.Q<Image>("CoinIcon");
