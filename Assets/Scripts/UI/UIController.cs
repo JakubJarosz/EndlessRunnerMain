@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -15,6 +16,10 @@ public class UIController : MonoBehaviour
     [SerializeField] private VisualTreeAsset ScoreElemPref;
 
     private bool isGamePlaying;
+    private bool isDeath;
+
+    private float deathUIDuration = 3f;
+    private float deathUITimer;
 
     private void Awake() {
         uiDocuemnt = GetComponent<UIDocument>();
@@ -23,6 +28,7 @@ public class UIController : MonoBehaviour
     private void Start() {
         gameStats = GameStats.Instance;
         GameManager.Instance.GameStateChanged += Instance_GameStateChanged;
+        GameStats.Instance.CoinPicked += Instance_CoinPicked;
         SwitchUI(MainMenuUI);
         HandleMainMenuUI();
     }
@@ -30,6 +36,8 @@ public class UIController : MonoBehaviour
     private void Update() {
        if (isGamePlaying) {
             HandleInGameUI();
+        } else if (isDeath) {
+            HandleDeathUI();
         }
     }
 
@@ -50,10 +58,13 @@ public class UIController : MonoBehaviour
         } else if (state == GameManager.GameState.Death) {
             SwitchUI(DeathUI);
             isGamePlaying = false;
+            isDeath = true;
         } else if (state == GameManager.GameState.Scoreboard) {
             SwitchUI(ScoreboardUI);
             HandleScoreboardUI();
             isGamePlaying = false;
+            isDeath = false;
+            deathUITimer = 0f;
         } 
     }
 
@@ -116,5 +127,27 @@ public class UIController : MonoBehaviour
         distance.text = gameStats.distanceCount.ToString() + " m";
         coins.text = gameStats.coinCount.ToString();
         speed.text = gameStats.speed.ToString() + " m/s";
+    }
+
+    private void HandleDeathUI() {
+        VisualElement element = uiDocuemnt.rootVisualElement.Q<VisualElement>("Background");
+
+        deathUITimer += Time.deltaTime;
+        float t = Mathf.Clamp01(deathUITimer / deathUIDuration);
+        float value = Mathf.Lerp(0f, 1f, t);
+
+        element.style.opacity = value;
+    }
+
+    // --------------- EVENTS ------------------
+    private void Instance_CoinPicked() {
+        Image coinImg = uiDocuemnt.rootVisualElement.Q<Image>("CoinIcon");
+        StartCoroutine(CoinScaleCoroutine(coinImg));
+    }
+
+    private IEnumerator CoinScaleCoroutine(Image coin) {
+        coin.style.scale = new Vector3(1.2f, 1.2f, 1.2f);
+        yield return new WaitForSeconds(0.1f);
+        coin.style.scale = new Vector3(1f, 1f, 1f);
     }
 }

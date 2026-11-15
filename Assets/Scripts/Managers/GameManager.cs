@@ -11,7 +11,8 @@ public class GameManager : MonoBehaviour
         PreGame,
         Gameplay,
         Death,
-        Scoreboard
+        Scoreboard,
+        Transition
     }
 
     public GameState state { get; private set; }

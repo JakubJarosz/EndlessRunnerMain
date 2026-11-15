@@ -4,7 +4,7 @@
         <ui:Label text="1200 m." name="DistanceText" style="-unity-font-definition: url(&quot;project://database/Assets/GameAssets/Visuals/Kaph_Font_1_20/OpenType%20(.otf)/Kaph-Regular.otf?fileID=12800000&amp;guid=b6558aa0efa0b4149ad5131051e2c81a&amp;type=3#Kaph-Regular&quot;); font-size: 35px; color: rgb(255, 255, 255);"/>
         <ui:Label text="Coins" style="font-size: 25px; color: rgb(185, 143, 59); -unity-font-definition: url(&quot;project://database/Assets/GameAssets/Visuals/Kaph_Font_1_20/OpenType%20(.otf)/Kaph-Regular.otf?fileID=12800000&amp;guid=b6558aa0efa0b4149ad5131051e2c81a&amp;type=3#Kaph-Regular&quot;);"/>
         <ui:VisualElement style="flex-grow: 0; flex-direction: row;">
-            <ui:Image source="project://database/Assets/GameAssets/Visuals/UI/Icons/dollar.png?fileID=2800000&amp;guid=96c01e1e5334bc94fabf1311318df8f4&amp;type=3#dollar" style="height: 58px; width: 75px; opacity: 1; scale: 1 1;"/>
+            <ui:Image source="project://database/Assets/GameAssets/Visuals/UI/Icons/dollar.png?fileID=2800000&amp;guid=96c01e1e5334bc94fabf1311318df8f4&amp;type=3#dollar" name="CoinIcon" style="height: 58px; width: 75px; opacity: 1; scale: 1 1;"/>
             <ui:Label text="123" name="CoinText" style="-unity-font-definition: url(&quot;project://database/Assets/GameAssets/Visuals/Kaph_Font_1_20/OpenType%20(.otf)/Kaph-Regular.otf?fileID=12800000&amp;guid=b6558aa0efa0b4149ad5131051e2c81a&amp;type=3#Kaph-Regular&quot;); font-size: 35px; color: rgb(255, 255, 255); -unity-text-align: lower-left;"/>
         </ui:VisualElement>
     </ui:VisualElement>

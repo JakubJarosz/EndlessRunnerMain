@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 using static GameManager;
 
 public class GameStats : MonoBehaviour
 {
     public static GameStats Instance;
+    public event Action CoinPicked;
 
     public int coinCount { get; private set; }
     public int speed { get; private set; }
@@ -32,6 +34,7 @@ public class GameStats : MonoBehaviour
 
     public void AddCoin() {
         coinCount++;
+        CoinPicked?.Invoke();
     }
 
     // ------------ Save System ------------
