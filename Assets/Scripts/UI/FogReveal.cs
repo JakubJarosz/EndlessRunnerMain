@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class FogReveal : MonoBehaviour {
     [SerializeField] private Material fogMaterial;
@@ -34,6 +35,7 @@ public class FogReveal : MonoBehaviour {
         } else {
             startReaveal = false;
             elapsedTime = 0f;
+            fogMaterial.SetFloat("_FogReveal", fogRevealMin);
         }
     }
 

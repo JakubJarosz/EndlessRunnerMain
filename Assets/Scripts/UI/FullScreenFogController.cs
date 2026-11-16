@@ -43,8 +43,10 @@ public class FullScreenFogController : MonoBehaviour
     }
 
     private void Instance_GameStateChanged(GameManager.GameState obj) {
-        if (obj == GameManager.GameState.Gameplay || obj == GameManager.GameState.Death) {
+        if (obj == GameManager.GameState.Gameplay) {
             StartCoroutine(EnableFogWithDelay());
+        } else if (obj == GameManager.GameState.Death || obj == GameManager.GameState.Scoreboard) {
+            enableFogLogic = true;
         } else {
             enableFogLogic = false;
             value = minFogVisibility;
@@ -53,7 +55,7 @@ public class FullScreenFogController : MonoBehaviour
     }
 
     private IEnumerator EnableFogWithDelay() {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(6f);
         enableFogLogic = true;
     }
 }

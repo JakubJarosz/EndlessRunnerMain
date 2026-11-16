@@ -36,7 +36,7 @@ public class UIController : MonoBehaviour {
         StartUI.style.display = DisplayStyle.Flex;
         gameStats = GameStats.Instance;
         CreateStartButtons();
-        CreateScoreboardButtons();
+        PopulateScoreboard();
     }
 
 
@@ -82,7 +82,6 @@ public class UIController : MonoBehaviour {
 
             case GameManager.GameState.Scoreboard:
                 ScoreboardUI.style.display = DisplayStyle.Flex;
-                HandleScoreboardUI();
                 break;
         }
     }
@@ -131,7 +130,7 @@ public class UIController : MonoBehaviour {
         GameManager.Instance.RequestGameState(GameState.Scoreboard);
     }
 
-    private void CreateScoreboardButtons() {
+    private void PopulateScoreboard() {
         // Adding clickable events to the buttons in the scoreboard UI
         VisualElement retryButton = ScoreboardUI.Q<VisualElement>("RetryButton");
         VisualElement exitButton = ScoreboardUI.Q<VisualElement>("ExitButton");
@@ -144,9 +143,6 @@ public class UIController : MonoBehaviour {
             Debug.Log("App close");
             Application.Quit();
         }));
-    }
-
-    private void HandleScoreboardUI() {
 
         VisualElement parent = ScoreboardUI.Q<VisualElement>("ScoresBox");
         SaveSystem.SaveData save = SaveSystem.Instance.LoadGame();
@@ -169,6 +165,11 @@ public class UIController : MonoBehaviour {
             distance.text = save.scoreboardList[i].distance.ToString() + " m";
             score.text = save.scoreboardList[i].score.ToString();
         }
+    }
+
+    private void HandleScoreboardUI() {
+
+ 
     }
 
     // --------------- TRANSITION ------------------
