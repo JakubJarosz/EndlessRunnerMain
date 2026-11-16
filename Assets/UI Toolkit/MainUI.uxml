@@ -1,5 +1,5 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI%20Toolkit/Styles/styles.uss?fileID=7433441132597879392&amp;guid=6549a50296b529a4ab69f98bf7ca51a8&amp;type=3#styles"/>
+    <Style src="project://database/Assets/UI%20Toolkit/Styles/styles.uss?fileID=7433441132597879392&amp;guid=6549a50296b529a4ab69f98bf7ca51a8&amp;type=3"/>
     <ui:VisualElement name="StartUI" style="flex-grow: 1; position: absolute; top: 0; right: 0; bottom: 0; left: 0; opacity: 1; display: none;">
         <ui:VisualElement name="Background" style="flex-grow: 1; justify-content: flex-start; align-items: center; align-self: auto; align-content: center; opacity: 1; position: relative; width: 100%; height: 100%; flex-direction: column; display: flex; -unity-background-scale-mode: scale-and-crop; -unity-slice-left: 1; -unity-background-image-tint-color: rgb(58, 112, 187); background-color: rgba(5, 5, 5, 0.333);">
             <ui:VisualElement name="TitleBox" style="flex-grow: 0; width: auto; height: auto; position: relative; right: auto; left: auto; flex-shrink: 0;">

@@ -1,12 +1,16 @@
 using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static GameManager;
 
 public class UIController : MonoBehaviour {
 
     private UIDocument uiDocument;
+    private GameStats gameStats;
 
     [SerializeField] private Material fadeShader;
+    [SerializeField] private VisualTreeAsset ScoreElemPref;
 
     private VisualElement StartUI;
     private VisualElement InGameUI;
@@ -25,30 +29,169 @@ public class UIController : MonoBehaviour {
         ScoreboardUI = uiDocument.rootVisualElement.Q<VisualElement>("ScoreboardUI");
         TransitionUI = uiDocument.rootVisualElement.Q<VisualElement>("TransitionUI");
 
+        GameManager.Instance.GameStateChangeRequest += Instance_GameStateChangeRequest;
         GameManager.Instance.GameStateChanged += Instance_GameStateChanged;
+
+        // Initial Start, makes the visualElelemts clickable, fetch gameStats
+        StartUI.style.display = DisplayStyle.Flex;
+        gameStats = GameStats.Instance;
+        CreateStartButtons();
+        CreateScoreboardButtons();
     }
+
 
     private void Update() {
-
-        fadeShader.SetFloat("_FadeAmount", 1f);
-        fadeShader.GetFloat("_FadeAmount");
+        FetchGameStats();
     }
-    private void Instance_GameStateChanged(GameManager.GameState obj) {
-        if (obj == GameManager.GameState.Gameplay) {
 
+    private void Instance_GameStateChangeRequest(GameManager.GameState obj) {
+        if (obj == GameManager.GameState.PreGame) {
+            StartCoroutine(Transition(GameManager.GameState.PreGame));
+        } else if (obj == GameManager.GameState.Gameplay) {
+             StartCoroutine(Transition(GameManager.GameState.Gameplay));
+        }  else if (obj == GameManager.GameState.Scoreboard) {
+            StartCoroutine(Transition(GameManager.GameState.Scoreboard));
         }
     }
 
-    private void ChangeUI(VisualElement UI) {
+    private void Instance_GameStateChanged(GameState obj) {
+        if (obj == GameManager.GameState.Death) {
+            ChangeUI(GameManager.GameState.Death);
+        }
+    }
+
+    private void ChangeUI(GameManager.GameState state) {
         StartUI.style.display = DisplayStyle.None;
         InGameUI.style.display = DisplayStyle.None;
         DeathUI.style.display = DisplayStyle.None;
         ScoreboardUI.style.display = DisplayStyle.None;
 
-        UI.style.display = DisplayStyle.Flex;
+        switch (state) {
+            case GameManager.GameState.PreGame:
+                StartUI.style.display = DisplayStyle.Flex;
+                break;
+
+            case GameManager.GameState.Gameplay:
+                InGameUI.style.display = DisplayStyle.Flex;
+                break;
+
+            case GameManager.GameState.Death:
+                DeathUI.style.display = DisplayStyle.Flex;
+                StartCoroutine(HandleDeathUI());
+                break;
+
+            case GameManager.GameState.Scoreboard:
+                ScoreboardUI.style.display = DisplayStyle.Flex;
+                HandleScoreboardUI();
+                break;
+        }
+    }
+
+    private void CreateStartButtons() {
+        VisualElement startButton = StartUI.Q<VisualElement>("StartBtn");
+        VisualElement optionsButton = StartUI.Q<VisualElement>("OptionsBtn");
+
+        startButton.AddManipulator(new Clickable(() => {
+            GameManager.Instance.RequestGameState(GameState.Gameplay);
+        }));
+
+        optionsButton.AddManipulator(new Clickable(() => {
+            Debug.Log("options button clicked");
+        }));
+    }
+
+    private void FetchGameStats() {
+        Label distance = InGameUI.Q<Label>("DistanceText");
+        Label coins = InGameUI.Q<Label>("CoinText");
+        Label speed = InGameUI.Q<Label>("SpeedText");
+
+        distance.text = gameStats.distanceCount.ToString() + " m";
+        coins.text = gameStats.coinCount.ToString();
+        speed.text = gameStats.speed.ToString() + " m/s";
+    }
+
+    private IEnumerator HandleDeathUI() {
+        VisualElement element = DeathUI.Q<VisualElement>("Background");
+        float duration = 3f;
+        float time = 0f;
+
+        while (time < duration) {
+            time += Time.deltaTime;
+
+            float t = Mathf.Clamp01(time / duration);
+
+            element.style.opacity = Mathf.Lerp(0f, 1f, t);
+
+            yield return null;
+        }
+        element.style.opacity = 1f;
+
+        yield return new WaitForSeconds(0.3f);
+
+        GameManager.Instance.RequestGameState(GameState.Scoreboard);
+    }
+
+    private void CreateScoreboardButtons() {
+        // Adding clickable events to the buttons in the scoreboard UI
+        VisualElement retryButton = ScoreboardUI.Q<VisualElement>("RetryButton");
+        VisualElement exitButton = ScoreboardUI.Q<VisualElement>("ExitButton");
+
+        retryButton.AddManipulator(new Clickable(() => {
+            GameManager.Instance.RequestGameState(GameState.PreGame);
+        }));
+
+        exitButton.AddManipulator(new Clickable(() => {
+            Debug.Log("App close");
+            Application.Quit();
+        }));
+    }
+
+    private void HandleScoreboardUI() {
+
+        VisualElement parent = ScoreboardUI.Q<VisualElement>("ScoresBox");
+        SaveSystem.SaveData save = SaveSystem.Instance.LoadGame();
+
+
+        // Handling The population of scoreboard
+        for (int i = 0; i < save.scoreboardList.Count; i++) {
+            // Instantiate element
+            VisualElement scoreElem = ScoreElemPref.Instantiate();
+            // Add to parent
+            parent.Add(scoreElem);
+            // Get reference to label elements of instantiated element
+            Label place = scoreElem.Q<Label>("PlaceText");
+            Label coin = scoreElem.Q<Label>("CoinText");
+            Label distance = scoreElem.Q<Label>("MetersText");
+            Label score = scoreElem.Q<Label>("ScoreText");
+            // Update values of labels
+            place.text = (i + 1).ToString();
+            coin.text = save.scoreboardList[i].coins.ToString();
+            distance.text = save.scoreboardList[i].distance.ToString() + " m";
+            score.text = save.scoreboardList[i].score.ToString();
+        }
     }
 
     // --------------- TRANSITION ------------------
+
+    private void SetFade(float value) {
+        var material = TransitionUI.resolvedStyle.unityMaterial;
+
+        material.SetFloat("_FadeAmount", value);
+
+        TransitionUI.style.unityMaterial = material;
+    }
+
+    private IEnumerator Transition(GameManager.GameState gameState) {
+        yield return StartCoroutine(FadeIn());
+
+        ChangeUI(gameState);
+
+        yield return new WaitForSeconds(0.5f);
+
+        GameManager.Instance.CompleteGameStateChange(gameState);
+
+        yield return StartCoroutine(FadeOut());
+    }
 
     private IEnumerator FadeIn() {
         float duration = 1f;
@@ -59,11 +202,30 @@ public class UIController : MonoBehaviour {
 
             float value = Mathf.Lerp(0f, 1f, time);
 
-            fadeShader.SetFloat("_FadeAmount", value);
+            SetFade(value);
 
             yield return null;
         }
     }
+
+    //private IEnumerator BlackOutTransitionHandle(GameManager.GameState gameState) {
+    //    float duration = 0.5f;
+    //    float time = 0f;
+    //    bool hasExcuted = false;
+
+    //    while (time < duration) {
+    //        time += Time.deltaTime / duration;
+
+    //        if (!hasExcuted) {
+    //            hasExcuted = true;
+
+    //            // HERE IS ALL THE CODE THAT CAN HAPPEN WHEN THE SCREEN IS BLACK
+    //            ChangeUI(gameState);
+
+    //        }
+    //        yield return null;
+    //    }
+    //}
 
     private IEnumerator FadeOut() {
         float duration = 1f;
@@ -74,213 +236,9 @@ public class UIController : MonoBehaviour {
 
             float value = Mathf.Lerp(1f, 0f, time);
 
-            fadeShader.SetFloat("_FadeAmount", value);
+            SetFade(value);
 
             yield return null;
         }
     }
 }
-//public class UIController : MonoBehaviour
-//{
-//    private UIDocument uiDocuemnt;
-//    private GameStats gameStats;
-
-//    [Header("UI UXML FILES")]
-//    [SerializeField] private VisualTreeAsset MainMenuUI;
-//    [SerializeField] private VisualTreeAsset InGameUI;
-//    [SerializeField] private VisualTreeAsset ScoreboardUI;
-//    [SerializeField] private VisualTreeAsset DeathUI;
-//    [SerializeField] private VisualTreeAsset ScoreElemPref;
-
-//    [Header("TRANSITION VARIABLES")]
-//    [SerializeField] private VisualTreeAsset TransitionUI;
-//    [SerializeField] private Material fadeShader;
-//    private VisualElement transitionOverlay;
-
-
-//    private bool isGamePlaying;
-//    private bool isDeath;
-
-//    private float deathUIDuration = 3f;
-//    private float deathUITimer;
-
-
-//    private void Awake() {
-//        uiDocuemnt = GetComponent<UIDocument>();
-//    }
-
-//    private void Start() {
-//        gameStats = GameStats.Instance;
-//        GameManager.Instance.GameStateChanged += Instance_GameStateChanged;
-//        GameStats.Instance.CoinPicked += Instance_CoinPicked;
-
-//        // Instantiating Transition UXTML in memory 
-
-
-//        SwitchUI(MainMenuUI);
-//        HandleMainMenuUI();
-//    }
-
-//    private void Update() {
-//       if (isGamePlaying) {
-//            HandleInGameUI();
-//        } else if (isDeath) {
-//            HandleDeathUI();
-//        }
-//    }
-
-//    private void SwitchUI(VisualTreeAsset newUI) {
-//        // Adding new UI
-//        uiDocuemnt.rootVisualElement.Clear();
-//        var UI = newUI.Instantiate();
-//        uiDocuemnt.rootVisualElement.Add(UI);
-
-
-//        // Adding Temperaty Tranisiton Overlay to Root
-//        transitionOverlay = TransitionUI.Instantiate().Q<VisualElement>("TransitionBackground");
-//        uiDocuemnt.rootVisualElement.Add(transitionOverlay);
-//    }
-
-//    private void Instance_GameStateChanged(GameManager.GameState state) {
-//        if (state == GameManager.GameState.PreGame) {
-//            SwitchUI(MainMenuUI);
-//            HandleMainMenuUI();
-//            isGamePlaying = false;
-//        } else if (state == GameManager.GameState.Gameplay) {
-//            SwitchUI(InGameUI);
-//            isGamePlaying = true;
-//        } else if (state == GameManager.GameState.Death) {
-//            SwitchUI(DeathUI);
-//            isGamePlaying = false;
-//            isDeath = true;
-//        } else if (state == GameManager.GameState.Scoreboard) {
-//            SwitchUI(ScoreboardUI);
-//            HandleScoreboardUI();
-//            isGamePlaying = false;
-//            isDeath = false;
-//            deathUITimer = 0f;
-//        }
-//    }
-
-//    private void HandleMainMenuUI() {
-//        VisualElement startButton = uiDocuemnt.rootVisualElement.Q<VisualElement>("StartBtn");
-//        VisualElement optionsButton = uiDocuemnt.rootVisualElement.Q<VisualElement>("OptionsBtn");
-
-//        startButton.AddManipulator(new Clickable(() => {
-//            GameManager.Instance.UpdateGameState(GameManager.GameState.Gameplay);
-//        }));
-
-//        optionsButton.AddManipulator(new Clickable(() => {
-//            Debug.Log("options button clicked");
-//        }));
-//    }
-
-//    private void HandleScoreboardUI() {
-//        // Adding clickable events to the buttons in the scoreboard UI
-//        VisualElement retryButton = uiDocuemnt.rootVisualElement.Q<VisualElement>("RetryButton");
-//        VisualElement exitButton = uiDocuemnt.rootVisualElement.Q<VisualElement>("ExitButton");
-
-//        retryButton.AddManipulator(new Clickable(() => {
-//            GameManager.Instance.UpdateGameState(GameManager.GameState.PreGame);
-//        }));
-
-//        exitButton.AddManipulator(new Clickable(() => {
-//            Debug.Log("App close");
-//            Application.Quit();
-//        }));
-
-
-//        VisualElement parent = uiDocuemnt.rootVisualElement.Q<VisualElement>("ScoresBox");
-//        SaveSystem.SaveData save = SaveSystem.Instance.LoadGame();
-
-
-//        // Handling The population of scoreboard
-//        for (int i = 0; i < save.scoreboardList.Count; i++) {
-//            // Instantiate element
-//            VisualElement scoreElem = ScoreElemPref.Instantiate();
-//            // Add to parent
-//            parent.Add(scoreElem);
-//            // Get reference to label elements of instantiated element
-//            Label place = scoreElem.Q<Label>("PlaceText");
-//            Label coin = scoreElem.Q<Label>("CoinText");
-//            Label distance = scoreElem.Q<Label>("MetersText");
-//            Label score = scoreElem.Q<Label>("ScoreText");
-//            // Update values of labels
-//            place.text = (i+1).ToString();
-//            coin.text = save.scoreboardList[i].coins.ToString();
-//            distance.text = save.scoreboardList[i].distance.ToString() + " m";
-//            score.text = save.scoreboardList[i].score.ToString();
-//        }
-//    }
-
-//    private void HandleInGameUI() {
-//        Label distance = uiDocuemnt.rootVisualElement.Q<Label>("DistanceText");
-//        Label coins = uiDocuemnt.rootVisualElement.Q<Label>("CoinText");
-//        Label speed = uiDocuemnt.rootVisualElement.Q<Label>("SpeedText");
-
-//        distance.text = gameStats.distanceCount.ToString() + " m";
-//        coins.text = gameStats.coinCount.ToString();
-//        speed.text = gameStats.speed.ToString() + " m/s";
-//    }
-
-//    private void HandleDeathUI() {
-//        VisualElement element = uiDocuemnt.rootVisualElement.Q<VisualElement>("Background");
-
-//        deathUITimer += Time.deltaTime;
-//        float t = Mathf.Clamp01(deathUITimer / deathUIDuration);
-//        float value = Mathf.Lerp(0f, 1f, t);
-
-//        element.style.opacity = value;
-//    }
-
-//    // -------------- TRANSTION -----------------
-
-//    private IEnumerator Transition(VisualTreeAsset UI) {
-//        StartCoroutine(FadeIn());
-//        SwitchUI(UI);
-//        yield return new WaitForSeconds(0.5f);
-//        StartCoroutine(FadeOut());
-//    }
-
-//    private IEnumerator FadeIn() {
-//        float duration = 1f;
-//        float time = 0f;
-
-//        while (time < 1f) {
-//            time += Time.deltaTime / duration;
-
-//            float value = Mathf.Lerp(0f, 1f, time);
-
-//            fadeShader.SetFloat("_FadeAmount", value);
-
-//            yield return null;
-//        }
-//    }
-
-//    private IEnumerator FadeOut() {
-//        float duration = 1f;
-//        float time = 0f;
-
-//        while (time < 1f) {
-//            time += Time.deltaTime / duration;
-
-//            float value = Mathf.Lerp(1f, 0f, time);
-
-//            fadeShader.SetFloat("_FadeAmount", value);
-
-//            yield return null;
-//        }
-//    }
-
-//    // --------------- EVENTS ------------------
-//    private void Instance_CoinPicked() {
-//        Image coinImg = uiDocuemnt.rootVisualElement.Q<Image>("CoinIcon");
-//        StartCoroutine(CoinScaleCoroutine(coinImg));
-//    }
-
-//    private IEnumerator CoinScaleCoroutine(Image coin) {
-//        coin.style.scale = new Vector3(1.2f, 1.2f, 1.2f);
-//        yield return new WaitForSeconds(0.1f);
-//        coin.style.scale = new Vector3(1f, 1f, 1f);
-//    }
-//}

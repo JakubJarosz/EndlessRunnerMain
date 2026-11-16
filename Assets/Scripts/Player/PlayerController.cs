@@ -140,18 +140,23 @@ public class PlayerController : MonoBehaviour {
         lastPosition = currentPosition;
     }
 
-    private void CenterPlayer() {
+    public bool CenterPlayer() {
         Vector2 pos = transform.position;
-        // 2f is the paralaxMultip of the centering
+
         pos.x = Mathf.MoveTowards(pos.x, 0f, 2f * Time.deltaTime);
         transform.position = pos;
+
+        if (pos.x == 0f) {
+            return true;
+        }
+        return false;
     }
 
     // ----------------- Events -----------------
 
     private void Instance_GameStateChanged(GameManager.GameState obj) {
         if (obj == GameManager.GameState.PreGame) {
-            transform.position = new Vector3(0f, -6.03f, 0f);
+            transform.position = new Vector3(-21f, -6.03f, 0f);
         }
     }
 

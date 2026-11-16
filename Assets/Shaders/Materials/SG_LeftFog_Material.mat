@@ -39,7 +39,7 @@ Material:
     m_Floats:
     - _DistortionStreangth: 0.27
     - _FogOpacity: 0.77
-    - _FogReveal: 0.92
+    - _FogReveal: 0.8640385
     - _RevealFeather: 0.3
     - _ScrollSpeed: 0.47
     - _WavyYSpeed: 0.14
