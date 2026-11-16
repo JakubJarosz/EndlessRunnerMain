@@ -156,7 +156,7 @@ public class PlayerController : MonoBehaviour {
 
     private void Instance_GameStateChanged(GameManager.GameState obj) {
         if (obj == GameManager.GameState.PreGame) {
-            transform.position = new Vector3(-21f, -6.03f, 0f);
+            transform.position = new Vector3(-22f, -6.03f, 0f);
         }
     }
 

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class FullScreenFogController : MonoBehaviour
@@ -11,9 +12,11 @@ public class FullScreenFogController : MonoBehaviour
     private const float playerDeathPos = -16.5f;
 
     private float value;
+    private bool enableFogLogic = false;
 
     private void Awake() {
         value = minFogVisibility;
+        fogMaterial.SetFloat("_VignettePower", value);
     }
 
     private void Start() {
@@ -21,25 +24,36 @@ public class FullScreenFogController : MonoBehaviour
     }
 
     private void Update() {
-        float playerCurrentPos = PlayerController.Instance.GetPlayerXPos;
-        float t = Mathf.InverseLerp(
-        playerDeathPos,
-        playerCenterPos,
-        playerCurrentPos
-    );
-
-        value = Mathf.Lerp(
-            maxFogVisibility,
-            minFogVisibility,
-            t
+        if (enableFogLogic) {
+            float playerCurrentPos = PlayerController.Instance.GetPlayerXPos;
+            float t = Mathf.InverseLerp(
+            playerDeathPos,
+            playerCenterPos,
+            playerCurrentPos
         );
 
-        fogMaterial.SetFloat("_VignettePower", value);
+            value = Mathf.Lerp(
+                maxFogVisibility,
+                minFogVisibility,
+                t
+            );
+
+            fogMaterial.SetFloat("_VignettePower", value);
+        }
     }
 
     private void Instance_GameStateChanged(GameManager.GameState obj) {
-        if (obj == GameManager.GameState.Scoreboard) {
+        if (obj == GameManager.GameState.Gameplay || obj == GameManager.GameState.Death) {
+            StartCoroutine(EnableFogWithDelay());
+        } else {
+            enableFogLogic = false;
             value = minFogVisibility;
+            fogMaterial.SetFloat("_VignettePower", value);
         }
+    }
+
+    private IEnumerator EnableFogWithDelay() {
+        yield return new WaitForSeconds(3f);
+        enableFogLogic = true;
     }
 }

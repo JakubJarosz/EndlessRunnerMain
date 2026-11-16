@@ -46,12 +46,20 @@ public class GameManager : MonoBehaviour
                 );
         }
 
-        if (startCenteringPlayer) {
-            bool isFinishedCentering = PlayerController.Instance.CenterPlayer();
-            if (isFinishedCentering) {
-                startCenteringPlayer = false;
+        if (state == GameState.Gameplay) {
+            if (startCenteringPlayer) {
+                bool centertingFinished = PlayerController.Instance.CenterPlayer();
+
+                if (centertingFinished) startCenteringPlayer = false;
+ 
             }
         }
+        //if (startCenteringPlayer) {
+        //    bool isFinishedCentering = PlayerController.Instance.CenterPlayer();
+        //    if (isFinishedCentering) {
+        //        startCenteringPlayer = false;
+        //    }
+        //}
     }
 
     public void RequestGameState(GameState gameState) {
@@ -71,7 +79,9 @@ public class GameManager : MonoBehaviour
                 cinemachineCamera.transform.position.y,
                 cinemachineCamera.transform.position.z
                 );
-        } else if (obj == GameState.Gameplay) {
+        } 
+
+        if (obj == GameState.Gameplay) {
             startCenteringPlayer = true;
         }
     }

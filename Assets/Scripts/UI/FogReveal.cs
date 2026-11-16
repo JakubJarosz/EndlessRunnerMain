@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class FogReveal : MonoBehaviour {
@@ -29,10 +30,15 @@ public class FogReveal : MonoBehaviour {
 
     private void Instance_GameStateChanged(GameManager.GameState obj) {
         if (obj == GameManager.GameState.Gameplay) {
-            startReaveal = true;
+            StartCoroutine(EnableFogWithDelay());
         } else {
             startReaveal = false;
             elapsedTime = 0f;
         }
+    }
+
+    private IEnumerator EnableFogWithDelay() {
+        yield return new WaitForSeconds(2.3f);
+        startReaveal = true;
     }
 }
