@@ -167,9 +167,11 @@ public class UIController : MonoBehaviour {
         }
     }
 
-    private void HandleScoreboardUI() {
+    private void AddNewScoreboardEl() {
+        SaveSystem.SaveData save = SaveSystem.Instance.LoadGame();
+        for (int i = 0; i < save.scoreboardList.Count; i++) {
 
- 
+        }
     }
 
     // --------------- TRANSITION ------------------

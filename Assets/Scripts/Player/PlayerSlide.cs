@@ -47,7 +47,7 @@ public class PlayerSlide : MonoBehaviour
 
         Vector3 pos = transform.position;
 
-        // Slide collider check
+        // Slide colliderBox check
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(pos + (Vector3)slideOffset, new Vector2(slideCollider.x, slideCollider.y));
 

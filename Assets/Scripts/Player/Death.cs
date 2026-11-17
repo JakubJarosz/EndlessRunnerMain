@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class Death : MonoBehaviour
 {
-    private BoxCollider2D collider;
+    private BoxCollider2D colliderBox;
 
     private void Awake() {
-        collider = GetComponent<BoxCollider2D>();
+        colliderBox = GetComponent<BoxCollider2D>();
     }
 
     private void Start() {
@@ -24,8 +24,8 @@ public class Death : MonoBehaviour
     }
 
     private IEnumerator DelayCollider() {
-        collider.enabled = false;
+        colliderBox.enabled = false;
         yield return new WaitForSeconds(3f);
-        collider.enabled = true;
+        colliderBox.enabled = true;
     }
 }
