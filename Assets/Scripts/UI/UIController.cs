@@ -92,6 +92,7 @@ public class UIController : MonoBehaviour {
 
         startButton.AddManipulator(new Clickable(() => {
             GameManager.Instance.RequestGameState(GameState.Gameplay);
+            Debug.Log("Started");
         }));
 
         optionsButton.AddManipulator(new Clickable(() => {

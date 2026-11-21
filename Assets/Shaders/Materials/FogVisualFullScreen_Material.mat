@@ -40,7 +40,7 @@ Material:
     - _Power: 7.41
     - _Speed: 1.54
     - _VignetteIntensity: 1.444
-    - _VignettePower: 0.15
+    - _VignettePower: 6.29
     - _VoronoiIntensity: 0.564
     m_Colors:
     - _Color: {r: 0.25792095, g: 0.39636078, b: 0.7924528, a: 1}
