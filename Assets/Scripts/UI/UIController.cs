@@ -1,5 +1,6 @@
 using System.Collections;
-using System.Runtime.CompilerServices;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using static GameManager;
@@ -17,6 +18,10 @@ public class UIController : MonoBehaviour {
     private VisualElement DeathUI;
     private VisualElement ScoreboardUI;
     private VisualElement TransitionUI;
+
+    private List<GameStats.SaveScore> inMemoryScoreList = new();
+    private Dictionary<VisualElement, Vector2> oldPositions = new();
+    private Dictionary<VisualElement, Vector2> newPositions = new();
 
     private void Awake() {
         uiDocument = GetComponent<UIDocument>();
@@ -92,7 +97,6 @@ public class UIController : MonoBehaviour {
 
         startButton.AddManipulator(new Clickable(() => {
             GameManager.Instance.RequestGameState(GameState.Gameplay);
-            Debug.Log("Started");
         }));
 
         optionsButton.AddManipulator(new Clickable(() => {
@@ -131,6 +135,8 @@ public class UIController : MonoBehaviour {
         GameManager.Instance.RequestGameState(GameState.Scoreboard);
     }
 
+
+    // SCOREBOARD LOGIC
     private void PopulateScoreboard() {
         // Adding clickable events to the buttons in the scoreboard UI
         VisualElement retryButton = ScoreboardUI.Q<VisualElement>("RetryButton");
@@ -153,6 +159,13 @@ public class UIController : MonoBehaviour {
         for (int i = 0; i < save.scoreboardList.Count; i++) {
             // Instantiate element
             VisualElement scoreElem = ScoreElemPref.Instantiate();
+
+            // Create Memory Copy List
+            inMemoryScoreList.Add(new GameStats.SaveScore {
+                coins = save.scoreboardList[i].coins,
+                distance = save.scoreboardList[i].distance,
+                score = save.scoreboardList[i].score
+            });
             // Add to parent
             parent.Add(scoreElem);
             // Get reference to label elements of instantiated element
@@ -168,14 +181,77 @@ public class UIController : MonoBehaviour {
         }
     }
 
-    private void AddNewScoreboardEl() {
-        SaveSystem.SaveData save = SaveSystem.Instance.LoadGame();
-        for (int i = 0; i < save.scoreboardList.Count; i++) {
+    // ----------------------- SCORBOARD LOGIC -------------------------------
+    private IEnumerator GetOldLayoutPos() {
+        VisualElement parent = ScoreboardUI.Q<VisualElement>("ScoresBox");
 
+        if (parent.childCount == 0)
+            yield break;
+
+        yield return new WaitUntil(() =>
+            parent.worldBound.width > 0 &&
+            parent.worldBound.height > 0 &&
+            parent.childCount > 0 &&
+            parent.Children().All(el => el.worldBound.height > 0)
+        );
+
+        oldPositions.Clear();
+
+        foreach (VisualElement el in parent.Children()) {
+            oldPositions[el] = el.worldBound.position;
         }
     }
 
-    // --------------- TRANSITION ------------------
+    private void UpdateScoreLayout() {
+        int insertIndex = SaveSystem.Instance.InsertIndex;
+        if (insertIndex == -2) return;
+
+        VisualElement parent = ScoreboardUI.Q<VisualElement>("ScoresBox");
+        VisualElement scoreElem = ScoreElemPref.Instantiate();
+
+        if (insertIndex == -1)
+            parent.Add(scoreElem);
+        else
+            parent.Insert(insertIndex, scoreElem);
+
+        if (inMemoryScoreList.Count == 10)
+            parent.RemoveAt(parent.childCount - 1);
+    }
+
+    private IEnumerator GetNewLayoutPos() {
+        VisualElement parent = ScoreboardUI.Q<VisualElement>("ScoresBox");
+
+        yield return new WaitUntil(() =>
+            parent.childCount > 0 &&
+            parent.Children().All(el => el.worldBound.height > 0)
+        );
+
+        newPositions.Clear();
+
+        foreach (VisualElement el in parent.Children()) {
+            newPositions[el] = el.worldBound.position;
+        }
+    }
+
+    private IEnumerator PrepareScoreboardAnimation() {
+        yield return StartCoroutine(GetOldLayoutPos());
+
+        UpdateScoreLayout();
+
+        yield return StartCoroutine(GetNewLayoutPos());
+    }
+
+    private IEnumerator XYZ() {
+        // Check to make sure that positions are set
+        yield return new WaitUntil(() =>
+        oldPositions.Count >= 0 &&
+        newPositions.Count > 0
+        );
+
+
+    }
+
+    // ------------------------------ TRANSITION -----------------------------
 
     private void SetFade(float value) {
         var material = TransitionUI.resolvedStyle.unityMaterial;
@@ -188,13 +264,24 @@ public class UIController : MonoBehaviour {
     private IEnumerator Transition(GameManager.GameState gameState) {
         yield return StartCoroutine(FadeIn());
 
+        // Set selected Ui element to Flex and the rest to None
         ChangeUI(gameState);
+        
+        // Set the oldPositions and newPostions so the data is ready when FadeOut finishes
+        if (gameState == GameState.Scoreboard) {
+            StartCoroutine(PrepareScoreboardAnimation());
+        } 
 
         yield return new WaitForSeconds(0.5f);
 
         GameManager.Instance.CompleteGameStateChange(gameState);
 
         yield return StartCoroutine(FadeOut());
+
+        // Start Scorboard Animations
+        if (gameState == GameState.Scoreboard) {
+            StartCoroutine(XYZ());
+        }
     }
 
     private IEnumerator FadeIn() {
@@ -211,25 +298,6 @@ public class UIController : MonoBehaviour {
             yield return null;
         }
     }
-
-    //private IEnumerator BlackOutTransitionHandle(GameManager.GameState gameState) {
-    //    float duration = 0.5f;
-    //    float time = 0f;
-    //    bool hasExcuted = false;
-
-    //    while (time < duration) {
-    //        time += Time.deltaTime / duration;
-
-    //        if (!hasExcuted) {
-    //            hasExcuted = true;
-
-    //            // HERE IS ALL THE CODE THAT CAN HAPPEN WHEN THE SCREEN IS BLACK
-    //            ChangeUI(gameState);
-
-    //        }
-    //        yield return null;
-    //    }
-    //}
 
     private IEnumerator FadeOut() {
         float duration = 1f;

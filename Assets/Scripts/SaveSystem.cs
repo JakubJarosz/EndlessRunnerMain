@@ -7,6 +7,8 @@ public class SaveSystem : MonoBehaviour
 {
     public static SaveSystem Instance;
 
+    public int InsertIndex { get; private set; } = -2;
+
     private void Awake() {
         Instance = this;
     }
@@ -16,7 +18,9 @@ public class SaveSystem : MonoBehaviour
     }
 
     private void Instance_GameStateChanged(GameManager.GameState obj) {
-        if (obj == GameManager.GameState.Death) {
+        if (obj == GameManager.GameState.PreGame) {
+            InsertIndex = 0;
+        } else if (obj == GameManager.GameState.Death) {
             SaveGame();
         }
     }
@@ -51,21 +55,21 @@ public class SaveSystem : MonoBehaviour
         int maxListCount = 10;
         List<SaveScore> list = saveData.scoreboardList;
 
-        if (list.Count == 0) {
-            list.Add(scoreSave);
+        if (list.Exists(x => x.score == scoreSave.score)) {
+            InsertIndex = -2;
             return saveData;
-        }
+        } 
+        
 
-        for (int i = 0; i < list.Count; i++) {
-            if (scoreSave.score > list[i].score) {
-                list.Insert(i, scoreSave);
-                break;
-            } 
-        }
+        InsertIndex = list.FindIndex(x => scoreSave.score > x.score);
 
-        if (list.Count > maxListCount) {
+        if (InsertIndex == -1)
+            InsertIndex = list.Count;
+
+        list.Insert(InsertIndex, scoreSave);
+
+        if (list.Count > maxListCount)
             list.RemoveAt(list.Count - 1);
-        }
 
         return saveData;
     }
