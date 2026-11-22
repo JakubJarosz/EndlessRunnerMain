@@ -19,7 +19,7 @@ public class UIController : MonoBehaviour {
     private VisualElement ScoreboardUI;
     private VisualElement TransitionUI;
 
-    private List<GameStats.SaveScore> inMemoryScoreList = new();
+    private VisualElement scoreParent;
     private Dictionary<VisualElement, Vector2> oldPositions = new();
     private Dictionary<VisualElement, Vector2> newPositions = new();
 
@@ -37,11 +37,12 @@ public class UIController : MonoBehaviour {
         GameManager.Instance.GameStateChangeRequest += Instance_GameStateChangeRequest;
         GameManager.Instance.GameStateChanged += Instance_GameStateChanged;
 
+        scoreParent = ScoreboardUI.Q<VisualElement>("ScoresBox");
         // Initial Start, makes the visualElelemts clickable, fetch gameStats
         StartUI.style.display = DisplayStyle.Flex;
         gameStats = GameStats.Instance;
         CreateStartButtons();
-        PopulateScoreboard();
+        InitialPopulateScoreboard();
     }
 
 
@@ -136,8 +137,8 @@ public class UIController : MonoBehaviour {
     }
 
 
-    // SCOREBOARD LOGIC
-    private void PopulateScoreboard() {
+    // ----------------------- SCORBOARD LOGIC -------------------------------
+    private void InitialPopulateScoreboard() {
         // Adding clickable events to the buttons in the scoreboard UI
         VisualElement retryButton = ScoreboardUI.Q<VisualElement>("RetryButton");
         VisualElement exitButton = ScoreboardUI.Q<VisualElement>("ExitButton");
@@ -151,24 +152,23 @@ public class UIController : MonoBehaviour {
             Application.Quit();
         }));
 
-        VisualElement parent = ScoreboardUI.Q<VisualElement>("ScoresBox");
         SaveSystem.SaveData save = SaveSystem.Instance.LoadGame();
-
 
         // Handling The population of scoreboard
         for (int i = 0; i < save.scoreboardList.Count; i++) {
             // Instantiate element
             VisualElement scoreElem = ScoreElemPref.Instantiate();
 
-            // Create Memory Copy List
-            inMemoryScoreList.Add(new GameStats.SaveScore {
-                coins = save.scoreboardList[i].coins,
-                distance = save.scoreboardList[i].distance,
-                score = save.scoreboardList[i].score
-            });
-            // Add to parent
-            parent.Add(scoreElem);
-            // Get reference to label elements of instantiated element
+            // Add to scoreParent
+            scoreParent.Add(scoreElem);       
+        }
+        PopulateScoreboardElement(save);
+    }
+
+    private void PopulateScoreboardElement(SaveSystem.SaveData save) {
+        for (int i = 0; i < save.scoreboardList.Count; i++) {
+            VisualElement scoreElem = scoreParent.ElementAt(i);
+
             Label place = scoreElem.Q<Label>("PlaceText");
             Label coin = scoreElem.Q<Label>("CoinText");
             Label distance = scoreElem.Q<Label>("MetersText");
@@ -181,23 +181,21 @@ public class UIController : MonoBehaviour {
         }
     }
 
-    // ----------------------- SCORBOARD LOGIC -------------------------------
     private IEnumerator GetOldLayoutPos() {
-        VisualElement parent = ScoreboardUI.Q<VisualElement>("ScoresBox");
 
-        if (parent.childCount == 0)
+        if (scoreParent.childCount == 0)
             yield break;
 
         yield return new WaitUntil(() =>
-            parent.worldBound.width > 0 &&
-            parent.worldBound.height > 0 &&
-            parent.childCount > 0 &&
-            parent.Children().All(el => el.worldBound.height > 0)
+            scoreParent.worldBound.width > 0 &&
+            scoreParent.worldBound.height > 0 &&
+            scoreParent.childCount > 0 &&
+            scoreParent.Children().All(el => el.worldBound.height > 0)
         );
 
         oldPositions.Clear();
 
-        foreach (VisualElement el in parent.Children()) {
+        foreach (VisualElement el in scoreParent.Children()) {
             oldPositions[el] = el.worldBound.position;
         }
     }
@@ -206,51 +204,129 @@ public class UIController : MonoBehaviour {
         int insertIndex = SaveSystem.Instance.InsertIndex;
         if (insertIndex == -2) return;
 
-        VisualElement parent = ScoreboardUI.Q<VisualElement>("ScoresBox");
         VisualElement scoreElem = ScoreElemPref.Instantiate();
 
         if (insertIndex == -1)
-            parent.Add(scoreElem);
+            scoreParent.Add(scoreElem);
         else
-            parent.Insert(insertIndex, scoreElem);
+            scoreParent.Insert(insertIndex, scoreElem);
 
-        if (inMemoryScoreList.Count == 10)
-            parent.RemoveAt(parent.childCount - 1);
+        //if (inMemoryScoreList.Count == 10)
+        //    scoreParent.RemoveAt(scoreParent.childCount - 1);
     }
 
     private IEnumerator GetNewLayoutPos() {
-        VisualElement parent = ScoreboardUI.Q<VisualElement>("ScoresBox");
 
         yield return new WaitUntil(() =>
-            parent.childCount > 0 &&
-            parent.Children().All(el => el.worldBound.height > 0)
+            scoreParent.childCount > 0 &&
+            scoreParent.Children().All(el => el.worldBound.height > 0)
         );
 
         newPositions.Clear();
 
-        foreach (VisualElement el in parent.Children()) {
+        foreach (VisualElement el in scoreParent.Children()) {
             newPositions[el] = el.worldBound.position;
         }
     }
 
     private IEnumerator PrepareScoreboardAnimation() {
+        SaveSystem.SaveData save = SaveSystem.Instance.LoadGame();
+
         yield return StartCoroutine(GetOldLayoutPos());
 
         UpdateScoreLayout();
 
         yield return StartCoroutine(GetNewLayoutPos());
+        // Populating every element with data;
+        PopulateScoreboardElement(save);
+
+        yield return StartCoroutine(SetOffsetPositions());
     }
 
-    private IEnumerator XYZ() {
+    private IEnumerator SetOffsetPositions() {
         // Check to make sure that positions are set
         yield return new WaitUntil(() =>
-        oldPositions.Count >= 0 &&
         newPositions.Count > 0
         );
 
+        int insertIndex = SaveSystem.Instance.InsertIndex;
 
+        if (insertIndex == -2) {
+            yield break;
+
+        } if (insertIndex == -1) {
+            float startOffset = -700f;
+            scoreParent.ElementAt(scoreParent.childCount - 1).style.translate = new Translate(0, startOffset);
+        } else {
+            for (int i = 0; i < scoreParent.childCount; i++) {
+                VisualElement element = scoreParent.ElementAt(i);
+
+                // Element above inserted so skip
+                if (i < insertIndex)
+                    continue;
+
+                if (oldPositions.TryGetValue(element, out Vector2 oldPos)) {
+                    // This are elements that are undearneath the inserted element, they will translate to the origianl position
+                    // but for now they need to start from the one index above posiion
+                    float startOffset = oldPos.y - newPositions[element].y;
+                    element.style.translate = new Translate(0, startOffset);
+                } else {
+                    // Thats the inserted element that will start from some Y position and go to 0
+                    float startOffset = -700f;
+                    element.style.translate = new Translate(0, startOffset);
+                }
+            }
+        }
     }
 
+    private void HandleScoreAnimation() {
+        int insertIndex = SaveSystem.Instance.InsertIndex;
+
+        foreach (VisualElement el in scoreParent.Children()) {
+            int index = scoreParent.IndexOf(el);
+
+            float startOffset;
+
+            if (insertIndex == -1) {
+                startOffset = index == scoreParent.childCount - 1 ? -700f : 0f;
+            } else if (index < insertIndex) {
+                startOffset = 0f;
+            } else if (oldPositions.TryGetValue(el, out Vector2 oldPos)) {
+                startOffset = oldPos.y - newPositions[el].y;
+            } else {
+                startOffset = -700f;
+            }
+
+            if (index == 10) {
+                // Its 11th element that should dissapear
+                StartCoroutine(RemoveLastElem(el, 2f, startOffset, 100f));
+            } else {
+                StartCoroutine(AnimateElement(el, 2f, startOffset, 0f));
+            }
+        }
+    }
+
+    private IEnumerator AnimateElement(VisualElement element, float duration, float startY, float endY) {
+        float elapsed = 0f;
+
+        while(elapsed < duration) {
+            elapsed += Time.deltaTime;
+
+            float t = Mathf.Clamp01(elapsed / duration);
+            t = Mathf.SmoothStep(0f, 1f, t);
+            float y = Mathf.Lerp(startY, endY, t);
+
+            element.style.translate = new Translate(0, y);
+
+            yield return null;
+        }
+        element.style.translate = new Translate(0, endY);
+    }
+
+    private IEnumerator RemoveLastElem(VisualElement element, float duration, float startY, float endY) {
+        yield return StartCoroutine(AnimateElement(element, duration, startY, endY));
+        scoreParent.RemoveAt(scoreParent.childCount - 1);
+    }
     // ------------------------------ TRANSITION -----------------------------
 
     private void SetFade(float value) {
@@ -280,7 +356,7 @@ public class UIController : MonoBehaviour {
 
         // Start Scorboard Animations
         if (gameState == GameState.Scoreboard) {
-            StartCoroutine(XYZ());
+            HandleScoreAnimation();
         }
     }
 

@@ -60,7 +60,6 @@ public class SaveSystem : MonoBehaviour
             return saveData;
         } 
         
-
         InsertIndex = list.FindIndex(x => scoreSave.score > x.score);
 
         if (InsertIndex == -1)

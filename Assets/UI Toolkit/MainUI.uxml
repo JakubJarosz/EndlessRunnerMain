@@ -112,7 +112,7 @@
                         <ui:Label text="Score" class="text"/>
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement name="ScoresBox" style="flex-grow: 0; height: 466px; width: 881px; margin-top: 1px; display: flex;"/>
+                <ui:VisualElement name="ScoresBox" style="flex-grow: 0; height: 480px; width: 881px; margin-top: 1px; display: flex;"/>
             </ui:VisualElement>
             <ui:VisualElement name="RetryButton" class="button" style="flex-grow: 0; position: absolute; background-image: url(&quot;project://database/Assets/GameAssets/Visuals/UI/UIElements/Hexagon.png?fileID=2800000&amp;guid=a15b00d319f1ffd49be98c3418c8385e&amp;type=3#Hexagon&quot;); width: 155px; height: 58px; background-position-x: center; -unity-background-scale-mode: scale-and-crop; top: 580px; left: 1118px; -unity-background-image-tint-color: rgb(241, 115, 115); flex-direction: row;">
                 <ui:Image source="project://database/Assets/GameAssets/Visuals/UI/Icons/reload.png?fileID=2800000&amp;guid=596737f74f3f2824284f144743418375&amp;type=3#reload" style="height: 58px; width: 42px; margin-left: 22px;"/>
